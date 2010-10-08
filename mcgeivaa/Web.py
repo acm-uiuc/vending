@@ -10,6 +10,10 @@ class _GetHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
 			htmlfile = caffeine_template()
 			log(Log.Info,"web", "Request from %s for page %s" % (self.client_address[0], self.path))
+			if self.path.startswith("/gui/"):
+				if not self.client_address0 == 127.0.0.1:
+					self.send_response(403)
+					return
 			self.send_response(200)
 			self.send_header("Content-type","text/html")
 			self.end_headers()
