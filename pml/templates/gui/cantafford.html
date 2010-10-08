@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title><? pml.get('page_title') ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="/caffeine.css" rel="stylesheet" type="text/css" />
+	<meta http-equiv="refresh" content="2;url=main">
+  </head>
+  <body>
+	<div id='shadow'>
+	  <div id='banner'>Caffeine@ACM</div>
+	  <div id='middle-header'>You can't afford this.</div>
+	  <div id='middle-content'>
+		<div id='middle-text'>
+			<h2>This item is too expensive, you can not afford it.</h2>
+			<p>Your balance is <? print "$%.2f" % pml.get('globals')['Environment'].user.extra['balance'] ?>.</p>
+		</div>
+	  </div>
+	  <div id='copyright'>&copy; 2010 <a class="copyright" href="http://acm.uiuc.edu/lug">Linux Users Group</a> @ UIUC</div>
+	</div>
+  </body>
+</html>
