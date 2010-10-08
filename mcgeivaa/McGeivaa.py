@@ -106,7 +106,7 @@ class AckEvents:
 	Vend = 0
 
 class VendingUser:
-	def __init__(self, uin, uid, extra):
+	def __init__(self, uid, uin, extra):
 		self.uin = uin
 		self.uid = uid
 		self.extra = extra
@@ -165,6 +165,7 @@ class Vending:
 				self.handleButtonPress(data.replace(getConfig("serial_data_button_prefix"),""))
 		elif Environment.state == State.Acknowledge:
 			if data.startswith(getConfig("serial_data_acknowledge_prefix")):
+				log(Log.Info, "api-serial", "Acknowledged. Returning to Ready state.")
 				Environment.state = State.Ready
 	def handleCardSwipe(self, card):
 		if not card.startswith(";"):
@@ -205,8 +206,10 @@ class Vending:
 				this_tray = Environment.trays[button_id]
 				log(Log.Info, "button-press", "Confirming selection. Vending!")
 				self.db.chargeUser(this_tray.price)
+				self.db.vend(button_id)
 				Environment.waiting_for = AckEvents.Vend
 				Environment.state = State.Acknowledge
+				self.serial.vend(button_id)
 				return True
 			else:
 				log(Log.Info, "button-press", "User changed selection.")

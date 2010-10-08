@@ -76,4 +76,17 @@ class MySQLBackend:
 			Environment.trays.append(VendingItem(soda['name'], i, tray['qty'], tray['price'], soda))
 		return Environment.trays
 	def chargeUser(self, amount):
-		pass
+		log(Log.Info,"db-charge", "uid: %d, amount: %.2f" % (int(Environment.user.uid), amount))
+		self.user_database.query("INSERT INTO `vending_transactions` VALUES (NULL, NULL, %d, %.2f, -1)" % (int(Environment.user.uid), amount))
+		self.user_database.query("UPDATE `vending` SET `balance`=%.2f WHERE `uid`=%d" % (Environment.user.extra['balance'] - amount, int(Environment.user.uid)))
+		self.user_database.commit()
+		return True
+	def vend(self, tray):
+		# update tray amounts.
+		self.vend_database.query("select * from `trays` where `tid`=%d" % tray)
+		dbtray = self.vend_database.store_result().fetch_row(how=1)[0]
+		self.vend_database.query("update `trays` set `qty`=%d where `tid`=%d" % (dbtray['qty'] - 1, tray))
+		self.vend_database.commit()
+		self.getItems()
+		return True
+
