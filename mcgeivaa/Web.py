@@ -14,11 +14,12 @@ class _GetHandler(BaseHTTPRequestHandler):
 			self.send_header("Content-type","text/html")
 			self.end_headers()
 			self.wfile.write(htmlfile)
-			return
 	def do_STOP(self):
 		self.send_response(200)
 		self.end_headers()
-		self.server.serving = False
+		self.server.serving = Falsei
+	def log_message(self, format, *args):
+		pass
 
 isRunning = False
 
@@ -35,10 +36,9 @@ class Server:
 	def __init__(self):
 		self.server = HTTPServer(('localhost',6969), _GetHandler)
 		log(Log.Info,"web","Web server is ready.")
-
 	def start(self):
 		global isRunning
 		isRunning = True
 		mythread = _WebThread(self)
-		mythread.run()
+		mythread.start()
 		log(Log.Notice,"web","Web server is running.")

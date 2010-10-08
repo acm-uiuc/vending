@@ -13,8 +13,8 @@ class GraphicalInterface:
 		self.web.load(QUrl("http://localhost:6969/gui/main"))
 		log(Log.Info, "gui", "Qt/WebKit GUI is initialized.")
 	def start(self):
-		self.web.show()
 		log(Log.Notice, "gui", "Interface is ready.")
+		self.web.show()
 		self.app.exec_()
 	def setPage(self, page):
 		self.web.load(QUrl("http://localhost:6969/gui/%s" % page))
