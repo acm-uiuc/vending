@@ -5,7 +5,7 @@ class Serial:
 	def __init__(self):
 		attempts = 0
 		devices = ["ttyUSB0", "ttyUSB1", "ttyS0", "ttyS1"]
-		while attempts < 5:
+		while attempts < 5 * len(devices):
 			for device in devices:
 				try:
 					self._serial = serial.Serial("/dev/%s" % device,getConfig("serial_baudrate"), getConfig("serial_line_timeout"))
