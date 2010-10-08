@@ -1,6 +1,5 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from threading import Thread
-import httplib
 
 from McGeivaa import *
 from Template import template
@@ -10,6 +9,7 @@ htmlfile = template()
 
 class _GetHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
+			log(Log.Info,"web", "Request from %s for page %s" % (self.client_address[0], self.path))
 			self.send_response(200)
 			self.send_header("Content-type","text/html")
 			self.end_headers()
@@ -33,10 +33,12 @@ class _WebThread(Thread):
 
 class Server:
 	def __init__(self):
-		global isRunning
 		self.server = HTTPServer(('localhost',6969), _GetHandler)
-		isRunning = True
+		log(Log.Info,"web","Web server is ready.")
 
 	def start(self):
+		global isRunning
+		isRunning = True
 		mythread = _WebThread(self)
 		mythread.run()
+		log(Log.Notice,"web","Web server is running.")
