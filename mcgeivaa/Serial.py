@@ -3,6 +3,7 @@ from McGeivaa import *
 
 class Serial:
 	def __init__(self):
+		self._internal = Environment.tool
 		attempts = 0
 		devices = ["ttyUSB0", "ttyUSB1", "ttyS0", "ttyS1"]
 		while attempts < 5 * len(devices):
@@ -59,5 +60,4 @@ class _SerialHandler(threading.Thread):
 		threading.Thread.start(self)
 	def run(self):
 		while self.isRunning:
-			pass
-			#Tool.handleSerialData(self.parent.read())
+			self.parent._internal.handleSerialData(self.parent.read())

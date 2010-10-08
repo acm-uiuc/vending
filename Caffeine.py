@@ -14,7 +14,7 @@ from mcgeivaa import Db, Gui, Serial, Web, McGeivaa
 
 class Caffeine(McGeivaa.Vending):
 	def start(self):
-		McGeivaa.Tool = self
+		McGeivaa.Environment.tool = self
 		self.serial = Serial.Serial()
 		self.db = Db.MySQLBackend()
 		self.web = Web.Server()

@@ -96,18 +96,19 @@ def _readConfig():
 	except:
 		log(Log.Warn, "api-main", "Could not read config file (vend.conf), this may be bad.")
 
+class Environment:
+	tool = 0
+
 """
 	Main Object
 """
-
-Tool = None
 
 class Vending:
 	"""
 		Vending API super class
 	"""
 	def __init__(self):
-		Tool = self
+		log(Log.Warn, "api-main", "Starting up...")
 		_readConfig()
 	def start(self):
 		if self.serial is None:
