@@ -32,7 +32,7 @@ class Server:
         isRunning = True
 
     def serve(server):
-        while isRunning
+        while isRunning:
             server.handle_request()
 
     def start(self):
