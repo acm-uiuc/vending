@@ -55,6 +55,7 @@ import sys
 import thread
 import time
 
+from mcgeivaa.McGeivaa import *
 
 class PML(object):
     
@@ -224,8 +225,8 @@ class PML(object):
         if self.output_capture.capturing:
             self.output_capture.end()
         if self.config["print_errors"]:
-            print "\n\nPML Error: " + error
-            sys.exit(0)
+            log(Log.Warn, "web-pml", "Template engine error: %s" % error)
+            raise
         else:
             # TODO: Create a PMLException class with line numbers etc.
             raise
