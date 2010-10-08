@@ -8,12 +8,13 @@ class Serial:
 		while attempts < 5 * len(devices):
 			for device in devices:
 				try:
-					self._serial = serial.Serial("/dev/%s" % device,getConfig("serial_baudrate"), getConfig("serial_line_timeout"))
+					log(Log.Info, "serial", "Trying /dev/%s" % device)
+					self._serial = serial.Serial("/dev/%s" % device,getConfig("serial_baudrate"), timeout=getConfig("serial_line_timeout"))
 					log(Log.Info, "serial", "Using /dev/%s for serial communication." % device)
 					log(Log.Info, "serial", "Running at %d without a line timeout of %d." % (self._serial.baudrate, self._serial.timeout))
 					self._handler = _SerialHandler(self)
 					return
-				except:
+				except Exception as e:
 					attempts += 1
 		log(Log.Error, "serial", "Failed to initialize a serial device after 5 attempts, we're going nowhere.")
 		fatalError("No serial device")
