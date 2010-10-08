@@ -202,6 +202,7 @@ class Vending:
 				self.gui.showCanNotAfford(this_tray)
 		elif Environment.state == State.Confirm:
 			if button_id == Environment.last_button:
+				this_tray = Environment.trays[button_id]
 				log(Log.Info, "button-press", "Confirming selection. Vending!")
 				self.db.chargeUser(this_tray.price)
 				Environment.waiting_for = AckEvents.Vend
