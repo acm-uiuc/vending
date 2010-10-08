@@ -36,7 +36,7 @@ class Server:
             server.handle_request()
 
     def start(self):
-        mythread = Thread(target = RunServer, args = (self,))
+        mythread = Thread(target = serve, args = (self,))
         mythread.start()
 
 
