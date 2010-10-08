@@ -36,7 +36,8 @@ if __name__ == '__main__':
         server.serve_forever()
     mythread = Thread(target = RunServer, args = (myserver,))
     mythread.start()
-    time.sleep(10)
+#    time.sleep(10)
+    raw_input('Press Enter to Kill')
     conn = httplib.HTTPConnection("localhost:6969")
     conn.request("STOP","/")
     print 'Stopping Server...'
