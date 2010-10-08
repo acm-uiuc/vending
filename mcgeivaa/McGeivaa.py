@@ -98,6 +98,7 @@ class Environment:
 	tool = 0
 	state = State.Initializing
 	user = None
+	trays = []
 
 class VendingUser:
 	def __init__(self, uin, uid, extra):
@@ -107,7 +108,12 @@ class VendingUser:
 		log(Log.Info,"api-user","Authenticated user %s %s with balance $%.2f" % (self.extra['first_name'], self.extra['last_name'], self.extra['balance']))
 
 class VendingItem:
-	pass
+	def __init__(self, title, tray, quantity, price, extra):
+		self.title = title
+		self.tray = tray
+		self.quantity = quantity
+		self.price = price
+		self.extra = extra
 
 """
 	Main Object
