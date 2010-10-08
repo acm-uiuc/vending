@@ -12,16 +12,23 @@ class GraphicalInterface:
 		self.web = QWebView()
 		self.web.load(QUrl("http://localhost:6969/gui/main"))
 		log(Log.Info, "gui", "Qt/WebKit GUI is initialized.")
+		self.page_queue = []
 	def start(self):
 		log(Log.Notice, "gui", "Interface is ready.")
 		self.web.show()
+		self.timer = QTimer()
+		QObject.connect(self.timer, SIGNAL("timeout()"), self.processUpdates)
+		self.timer.start(100)
 		self.app.exec_()
+	def processUpdates(self):
+		if len(self.page_queue) > 0:
+			self.setPage(self.page_queue.pop())
 	def setPage(self, page):
 		self.web.load(QUrl("http://localhost:6969/gui/%s" % page))
 		log(Log.Info, "gui", "Loaded page %s." % page)
 	def showConfirmation(self, tray):
-		self.setPage("confirm")
+		self.page_queue.append("confirm")
 	def updateUser(self):
-		self.setPage("user")
+		self.page_queue.append("user")
 	def showCanNotAfford(self, tray):
-		self.setPage("cantafford")
+		self.page_queue.append("cantafford")
