@@ -9,35 +9,40 @@
 		<div id='shadow'>
 			<div id='banner'>Caffeine@ACM</div>
 			<div id='middle-header'>Caffeine Inventory</div>
-			<div>
-				<table>
-					<?
-					   i=0
-					   for drink in pml.get('globals')['Environment'].tool.db.getItems():
-					?>
-					<?  if drink.quantity == 0: ?>
-					<tr class='tray_empty'><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'>Empty <span style='font-size: 16px;'>(was <? print drink.title ?>)</span></td></tr>
-					<tr class='tray_empty'><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
-					<?
-						#if
-						else:
-					?>
-					<tr><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'><? print drink.title ?></td></tr>
-					<tr><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
-					<? #else ?>
-					<?
-						 i +=1
-						 #for
-					?>
+			<table width="1270">
+				<tr>
+					<td>
+						<table width="432">
+							<?
+							   i=0
+							   for drink in pml.get('globals')['Environment'].tool.db.getItems():
+							?>
+							<?  if drink.quantity == 0: ?>
+							<tr class='tray_empty'><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'>Empty <span style='font-size: 16px;'>(was <? print drink.title ?>)</span></td></tr>
+							<tr class='tray_empty'><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
+							<?
+								#if
+								else:
+							?>
+							<tr><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'><? print drink.title ?></td></tr>
+							<tr><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
+							<? #else ?>
+							<?
+								 i +=1
+								 #for
+							?>
+						</table>
+					</td>
+					<td>
+						<div id='middle-content'>
+							<div id='middle-text'>
+								<img src="http://www.acm.uiuc.edu/~lange7/card_anim.gif" />
+							</div>
+						</div>
+					</tr>
 				</table>
-				<div id='middle-content'>
-					<div id='middle-text'>
-						
-					</div>
-				</div>
 			</div>
 			<div id='copyright'>&copy; 2010 <a class="copyright" href="http://acm.uiuc.edu/lug">Linux Users Group</a> @ UIUC</div>
 		</div>
 	</body>
 </html>
-
