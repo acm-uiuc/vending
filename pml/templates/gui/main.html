@@ -12,8 +12,47 @@
 			&nbsp;Caffeine Inventory		</div>
 		<div id='middle-content'>
 			<div id='middle-text'>
-				<br/><table><tr class='header'><td></td><td>Beverage</td><td>Qty</td><td>Price</td></tr>
-<?
+
+				<br/><table>
+					<!--><tr><td rowspan='2'></td><td colspan='2'>Mountain Dew</td></tr>
+					<tr><td>21</td><td>$0.50</td></tr>
+					<tr><td rowspan='2'></td><td colspan='2'>Mountain Dew</td></tr>
+					<tr><td>21</td><td>$0.50</td></tr>
+					<tr><td rowspan='2'></td><td colspan='2'>Mountain Dew</td></tr>
+					<tr><td>21</td><td>$0.50</td></tr>
+					<tr><td rowspan='2'></td><td colspan='2'>Mountain Dew</td></tr>
+					<tr><td>21</td><td>$0.50</td></tr>
+					<tr><td rowspan='2'></td><td colspan='2'>Mountain Dew</td></tr>
+					<tr><td>21</td><td>$0.50</td></tr>
+					<tr><td rowspan='2'></td><td colspan='2'>Mountain Dew</td></tr>
+					<tr><td>21</td><td>$0.50</td></tr>
+					<tr><td rowspan='2'></td><td colspan='2'>Mountain Dew</td></tr>
+					<tr><td>21</td><td>$0.50</td></tr>
+					<tr><td rowspan='2'></td><td colspan='2'>Mountain Dew</td></tr>
+					<tr><td>21</td><td>$0.50</td></tr>
+					<tr><td rowspan='2'></td><td colspan='2'>Mountain Dew</td></tr>
+					<tr><td>21</td><td>$0.50</td></tr><--!>
+					<?
+					i=0
+					for drink in pml.get('globals')['Environment'].tool.db.getItems(): ?>
+					<?  if drink.quantity == 0: ?>
+					<tr class='tray_empty'><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'>Empty, was <? print drink.title ?></td></tr>
+					<tr class='tray_empty'><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
+					<? #if
+					else: ?>
+					<tr><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'><? print drink.title ?></td></tr>
+					<tr><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
+					<? #else ?>
+					<?
+					i +=1
+					#for
+					?>
+				</table></div>
+
+
+			<!--><br/><table><tr class='header'><td></td><td>Beverage</td><td>Qty</td><td>Price</td></tr>
+					<?
+					
 i = 0
 for drink in pml.get('globals')['Environment'].tool.db.getItems(): ?>
 <? if drink.quantity == 0: ?>
@@ -27,7 +66,7 @@ else: ?>
 i += 1
 #for
 ?>
-			</table></div>
+			</table></div><--!>
 		</div>
 
 
