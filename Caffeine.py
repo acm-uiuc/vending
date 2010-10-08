@@ -10,12 +10,14 @@
 	
 """
 
-from mcgeivaa import Db
+from mcgeivaa import Db, Gui, Serial
 from mcgeivaa.McGeivaa import *
 
 class Caffeine(Vending):
 	def start(self):
+		self.serial = Serial.Serial()
 		self.db = Db.MySQLBackend()
+		self.gui = Gui.GraphicalInterface()
 		Vending.start(self)
 
 Caffeine().start()

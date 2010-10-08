@@ -110,7 +110,18 @@ class Vending:
 		Tool = self
 		_readConfig()
 	def start(self):
+		if self.serial is None:
+			log(Log.Error, "api-main", "No Serial module loaded. This is fatal.")
+			fatalError("No Serial module")
+		if self.db is None:
+			log(Log.Error, "api-main", "No DB module loaded. This is fatal.")
+			fatalError("No DB module")
+		if self.gui is None:
+			log(Log.Error, "api-main", "No GUI module loaded. This is fatal.")
+			fatalError("No GUI module")
+		self.serial.start()
 		self.db.start()
+		self.gui.start() # GUI should take over from here.
 
 """
 	Transaction Classes

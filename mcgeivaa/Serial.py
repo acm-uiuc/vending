@@ -17,6 +17,8 @@ class Serial:
 					attempts += 1
 		log(Log.Error, "serial", "Failed to initialize a serial device after 5 attempts, we're going nowhere.")
 		fatalError("No serial device")
+	def start(self):
+		self._handler.start()
 	def read(self):
 		try:
 			start_time = datetime.datetime.now()
