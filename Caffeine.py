@@ -10,17 +10,15 @@
 	
 """
 
-from mcgeivaa import Db, Gui, Serial, Web
-from mcgeivaa.McGeivaa import *
+from mcgeivaa import Db, Gui, Serial, Web, McGeivaa
 
-class Caffeine(Vending):
-	def __init__(self):
-		Vending.__init__(self)
+class Caffeine(McGeivaa.Vending):
 	def start(self):
+		McGeivaa.Tool = self
 		self.serial = Serial.Serial()
 		self.db = Db.MySQLBackend()
 		self.web = Web.Server()
 		self.gui = Gui.GraphicalInterface()
-		Vending.start(self)
+		McGeivaa.Vending.start(self)
 
 Caffeine().start()
