@@ -70,9 +70,9 @@ left;
 			/*margin-left:	10px;*/
 			/*width:		578px;*/
 			width:		1270px;
-			text-align: center;
 		}
 			#middle-text {
+				float: right;
 				text-align: middle;
 				position: relative;
 				right: 432px;
@@ -81,6 +81,7 @@ left;
 			#left-content {
 				width: 432px;
 				position: relative;
+				float: left;
 			}
 		#copyright {
 			bbottom:		5px;
