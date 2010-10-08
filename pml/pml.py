@@ -225,7 +225,7 @@ class PML(object):
             self.output_capture.end()
         if self.config["print_errors"]:
             print "\n\nPML Error: " + error
-            sys.exit()
+            sys.exit(0)
         else:
             # TODO: Create a PMLException class with line numbers etc.
             raise
@@ -444,7 +444,7 @@ class PMLCompiler(object):
             elif keyword in self.untab_keywords:
                 last_tab_keyword = self._keyword_stack.pop()
                 if keyword != "#" + last_tab_keyword[0]:
-                    self.pml.raiseError("You forgot to close a \"" + last_tab_keyword[0] + "\" in " + self.template + " near line: " + str(last_tab_keyword[1]) + "\n")                
+                   self.pml.raise_error("You forgot to close a \"%s\" in %s near line: %s" % (last_tab_keyword[0], self.template, str(last_tab_keyword[1])))
                 self.tab_depth -= 1
             
             else:
