@@ -38,3 +38,5 @@ class GraphicalInterface:
 		self.page_queue.append("vended")
 	def showCancel(self):
 		self.page_queue.append("cancel")
+	def showEmpty(self):
+		self.page_queue.append("empty")
