@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
 <head>
 	<title><? pml.get('page_title') ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -14,10 +14,10 @@
 			<div id='middle-text'>
 
 				<br/><table><tr class='header'><td></td><td>Beverage</td><td>Qty</td><td>Price</td></tr>
-					<? for all drink in pml.get('drinks') ?>
-						<? if drink.quantity == 0 ?>
-							<tr class='tray_empty'><td class='header'>0</td><td>Empty, was <? print drink.title ?>
-						<? else ? >
+					<? for all drink in pml.get('drinks'): ?>
+						<? if drink.quantity == 0: ?>
+						<tr class='tray_empty'><td class='header'>0</td><td>Empty, was <? print drink.title ?></td>
+						<? else: ?>
 							<tr><td class='header'>0</td><td><? print drink.title ?></td>
 						<? #if ?>
 						<td class='c'><? print drink.quantity ?></td><td class='c'><? print drink.price ?></td></tr>
