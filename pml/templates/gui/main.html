@@ -15,7 +15,7 @@
 				<br/><table><tr class='header'><td></td><td>Beverage</td><td>Qty</td><td>Price</td></tr>
 <?
 i = 0
-for drink in pml.get('drinks'): ?>
+for drink in pml.get('globals')['Environment'].tool.db.getItems(): ?>
 <? if drink.quantity == 0: ?>
 <tr class='tray_empty'><td class='header'><? print i ?></td><td>Empty, was <? print drink.title ?></td>
 <? #if
