@@ -3,7 +3,7 @@ html {
 }
 body	{
 	/*background:	url(background2.gif) repeat top center;*/
-	background:	url(http://www.acm.uiuc.edu/conference/2010/images/bg.png) repeat top center;
+	background:	url(/assets/bg.png) repeat top center;
 	font-family:	Arial, Verdana;
 	font-size:	11pt;
 	margin:		0;
