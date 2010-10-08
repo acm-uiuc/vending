@@ -25,19 +25,21 @@ class Serial:
 	def read(self):
 		try:
 			start_time = datetime.datetime.now()
-			data_in = _serial.read(255)
+			data_in = self._serial.read(255)
 			end_time = datetime.datetime.now()
 			read_time = end_time - start_time
 			if (len(data_in) < 1) and (read_time.microseconds < 100):
 				sys.exit(2)
-			log(log.Debug, "serial", "Read %s from serial device." % data_in)
+			if (len(data_in) < 1):
+				return None
+			log(Log.Info, "serial", "Read %s from serial device." % data_in)
 			return data_in
 		except SystemExit:
 			log(Log.Error, "serial", "FATAL: Read blank data way too fast - serial device is gone.")
 			fatalError("Serial device went missing")
-		except:
-			log(Log.Error, "serial", "FATAL: Unknown error occured on serial read.")
-			fatalError("Error on serial read")
+		#except:
+		#	log(Log.Error, "serial", "FATAL: Unknown error occured on serial read.")
+		#	fatalError("Error on serial read")
 	def write(self, data):
 		try:
 			bytesWritten = _serial.write(data)
@@ -60,4 +62,6 @@ class _SerialHandler(threading.Thread):
 		threading.Thread.start(self)
 	def run(self):
 		while self.isRunning:
-			self.parent._internal.handleSerialData(self.parent.read())
+			incoming = self.parent.read()
+			if not incoming is None:
+				self.parent._internal.handleSerialData(incoming)
