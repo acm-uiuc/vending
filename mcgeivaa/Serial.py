@@ -20,7 +20,7 @@ class Serial:
 		fatalError("No serial device")
 	def start(self):
 		self._handler.start()
-		log(log.Info, "serial", "Device started, serial interface running.")
+		log(Log.Info, "serial", "Device started, serial interface running.")
 	def read(self):
 		try:
 			start_time = datetime.datetime.now()
@@ -59,4 +59,5 @@ class _SerialHandler(threading.Thread):
 		threading.Thread.start(self)
 	def run(self):
 		while self.isRunning:
-			Tool.handleSerialData(self.parent.read())
+			pass
+			#Tool.handleSerialData(self.parent.read())
