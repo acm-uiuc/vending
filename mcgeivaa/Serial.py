@@ -8,7 +8,7 @@ class Serial:
 		while attempts < 5 * len(devices):
 			for device in devices:
 				try:
-					self._serial = serial.Serial("/dev/%s" % device,getConfig("serial_baudrate"), getConfig("serial_line_timeout"))
+					self._serial = serial.Serial("/dev/%s" % device,getConfig("serial_baudrate"), timeout=getConfig("serial_line_timeout"))
 					log(Log.Info, "serial", "Using /dev/%s for serial communication." % device)
 					log(Log.Info, "serial", "Running at %d without a line timeout of %d." % (self._serial.baudrate, self._serial.timeout))
 					self._handler = _SerialHandler(self)
@@ -23,9 +23,8 @@ class Serial:
 			data_in = _serial.read(255)
 			end_time = datetime.datetime.now()
 			read_time = end_time - start_time
-			if len(data_in) < 1:
-				if read_time.microseconds < 100:
-					sys.exit(2)
+			if (len(data_in) < 1) and (read_time.microseconds < 100):
+				sys.exit(2)
 			return data_in
 		except SystemExit:
 			log(Log.Error, "serial", "Read blank data way too fast - serial device is gone.")
