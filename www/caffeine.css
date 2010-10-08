@@ -1,0 +1,147 @@
+html {
+	height:		100%;
+}
+body	{
+	/*background:	url(background2.gif) repeat top center;*/
+	background:	url(http://www.acm.uiuc.edu/conference/2010/images/bg.png) repeat top center;
+	font-family:	Arial, Verdana;
+	font-size:	11pt;
+	margin:		0;
+	height:		100%;
+}
+a.copyright {
+	color:#00FF00;
+	border-bottom:1px dashed #999999;
+	text-decoration:none;
+}
+a.copyright:hover {
+	color:#AAAAAA;
+	border:none;
+}
+#shadow {
+	/*bbackground:	#666 url(shadow_background.gif) repeat-y top */
+left;
+	hheight:		100%;
+	margin:		0 auto;
+	/*padding:		0 22px 10px 22px;*/
+	/*width:		601px;*/
+}
+
+	#banner {
+		border-bottom:	solid 2px #99ff00;
+
+		/*height:		142px;*/
+		height:		100px;
+		width:		1270px;
+		vertical-align:	middle;
+
+		font-size:	60pt;
+		font-style:	italic;
+
+	}
+	#middle {
+		background:	#666666;
+		text-align:	left;
+		width:		1270px;
+	}
+		#nav {
+			background:	url(acm_uiuc_edu.gif) no-repeat top right;
+		}
+			#nav img {
+				border:		0;
+				margin:		2px 11px 5px 3px;
+			}
+		#middle-header {
+			/*background:	url(grey_striped_background.gif);*/
+			border:		solid 1px #000;
+			/*color:		#9F0;*/
+			height:		32px;
+			/*margin-left:	10px;*/
+			/*width:		578px;*/
+			width:		1270px;
+			font-weight:	bold;
+			font-size:	28px;
+		}
+		#middle-content {
+			/*background:	#666 url(middle_background.gif) repeat-y;*/
+			border:		solid 1px #000;
+			border-top:	0;
+			/*margin-left:	10px;*/
+			/*width:		578px;*/
+			width:		1270px;
+		}
+			#middle-text {
+				/*color:		#FFF;*/
+				/*padding:	4px;*/
+			}
+		#copyright {
+			bbottom:		5px;
+			/*color:		#CCC;*/
+			font-size:	10pt;
+			lleft:		0;
+			pposition:		absolute;
+			/*margin-top:	10px;*/
+			/*text-align:	center;*/
+			text-align:	left;
+			/*width:		100%;*/
+			width:		1270px;
+		}
+		#copyright a {
+			/*color:		#CCC;*/
+		}
+
+
+/*tray_empty {	color:		#D00;}
+.tray_critical {	color:		#F44;}
+.tray_low {	color:		#FC0;}
+.tray_disabled {	color:		#F00;}*/
+
+table {
+	/*margin:		auto;*/
+}
+table tr td {
+	border:		solid 1px #AAA;
+	font-size:	28px;
+	/*background-color:	#666;*/
+	/*padding:		3px;*/
+}
+
+table tr.header td, table tr td.header {
+	border:		0px;
+	background-color:	transparent;
+	text-align:	center;
+	font-weight:	bold;
+	/*color:		#9F0;*/
+
+}
+
+.c {
+	text-align:	center;
+}
+.r {
+	text-align:	right;
+}
+h3 a {
+	color:		#CCC;
+	text-decoration:	none;
+}
+.hidden {
+	display:		none;
+}
+ul.stats li {
+	float:		left;
+	margin:		0;
+	padding:		0;
+}
+ul.stats {
+	margin:		0;
+	padding:		0;
+	list-style-type:	none;
+}
+h3.selected a {
+	color:		#FFF;
+}
+h3 { display: inline }
+
+h2, h3 { margin: 0}
+
