@@ -8,27 +8,28 @@
 	<body>
 		<div id='shadow'>
 			<div id='banner'>Caffeine@ACM</div>
-			<div id='middle-header'>Caffeine Inventory</div>
+			<div id='middle-header'>User Information</div>
 			<div id='middle-content'>
 				<div id='middle-text'>
+					<?
+					user = pml.get('globals')['Environment'].user
+					?>
 					<table>
+						<tr><td colspan='2'>&nbsp;</td><td><b><? print user.extra['first_name'] ?></b></td><td><b><? print user.extra['last_name'] ?></b></td></tr>
 						<?
-						   i=0
-						   for drink in pml.get('globals')['Environment'].tool.db.getItems():
-						?>
+						i=0
+						for drink in pml.get('globals')['Environment'].tool.db.getItems(): ?>
 						<?  if drink.quantity == 0: ?>
 						<tr class='tray_empty'><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'>Empty, was <? print drink.title ?></td></tr>
 						<tr class='tray_empty'><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
-						<?
-							#if
-							else:
-						?>
+						<? #if
+						else: ?>
 						<tr><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'><? print drink.title ?></td></tr>
 						<tr><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
 						<? #else ?>
 						<?
-							 i +=1
-							 #for
+						i +=1
+						#for
 						?>
 					</table>
 				</div>
