@@ -11,7 +11,7 @@ class Serial:
 					log(Log.Info, "serial", "Trying /dev/%s" % device)
 					self._serial = serial.Serial("/dev/%s" % device,getConfig("serial_baudrate"), timeout=getConfig("serial_line_timeout"))
 					log(Log.Info, "serial", "Using /dev/%s for serial communication." % device)
-					log(Log.Info, "serial", "Running at %d without a line timeout of %d." % (self._serial.baudrate, self._serial.timeout))
+					log(Log.Info, "serial", "Running at %d with a line timeout of %f." % (self._serial.baudrate, self._serial.timeout))
 					self._handler = _SerialHandler(self)
 					return
 				except:
