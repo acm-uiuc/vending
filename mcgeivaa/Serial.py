@@ -20,7 +20,7 @@ class Serial:
 	def read(self):
 		try:
 			start_time = datetime.datetime.now()
-			data_in = _serial.read()
+			data_in = _serial.read(255)
 			end_time = datetime.datetime.now()
 			read_time = end_time - start_time
 			if len(data_in) < 1:
@@ -28,10 +28,12 @@ class Serial:
 					sys.exit(2)
 			return data_in
 		except SystemExit:
-			log(Log.Error, "serial", "Read blanck data way too fast - serial device is gone.")
+			log(Log.Error, "serial", "Read blank data way too fast - serial device is gone.")
 			fatalError("Serial device went missing")
 		except:
 			fatalError("Error on serial read")
+	def write(self):
+		
 
 class _SerialHandler(threading.Thread):
 	def __init__(self, parent):
