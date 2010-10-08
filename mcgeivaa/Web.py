@@ -2,10 +2,10 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from threading import Thread
 
 from McGeivaa import *
-from Template import template
+from CaffeineTemplate import caffeine_template
 
 
-htmlfile = template()
+htmlfile = caffeine_template()
 
 class _GetHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
