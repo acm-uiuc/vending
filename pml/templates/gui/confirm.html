@@ -1,6 +1,5 @@
-<? env = pml.get('globals')['Environment'] ?>
-
 <!DOCTYPE html>
+<? env = pml.get('globals')['Environment'] ?>
 <html>
   <head>
 	<title><? pml.get('page_title') ?></title>
@@ -15,12 +14,10 @@
 		<div id='middle-text'>
 		  <? drink_id = env.last_button
 			 drink = env.tool.db.getItems()[drink_id] ?>
-		  <h2><? drink.title ?></h2>
-		  <img src="/assets/drinks/<? drink_id ?>.png" />
-		  <h3>$<? '%.2f' % drink.price ?></h3>
+		  <h2><? print drink.title ?></h2>
+		  <p><img src="/assets/drinks/<? print drink.extra['sid'] ?>.png" /></p>
+		  <h3>$<? print '%.2f' % drink.price ?></h3>
 		  <p>Confirm this drink selection by pressing the button again.</p>
-		  <pre>drink_id = <? '%d' % drink_id ?>
-		  <? 'drink.title = %s drink.tray = %s drink.quantity = %d' % (drink.title, drink.tray, drink.quantity) ?></pre>
 		</div>
 	  </div>
 	  <div id='copyright'>&copy; 2010 <a class="copyright" href="http://acm.uiuc.edu/lug">Linux Users Group</a> @ UIUC</div>
