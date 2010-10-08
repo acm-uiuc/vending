@@ -24,13 +24,17 @@ class _GetHandler(BaseHTTPRequestHandler):
 		self.end_headers()
 		self.server.serving = False
 
+isRunning = False
+
 def serve(server):
+	global isRunning
 	while isRunning:
 		server.handle_request()
 
 
 class Server:
 	def __init__(self):
+		global isRunning
 		self = HTTPServer(('localhost',6969), _GetHandler)
 		isRunning = True
 
