@@ -75,7 +75,13 @@ left;
 				float: right;
 				text-align: middle;
 				position: relative;
-				right: 432px;
+				right: 435px;
+			}
+			#middle-text img {
+				display: inline;
+			}
+			#middle-text table {
+				display: inline;
 			}
 
 			#left-content {
