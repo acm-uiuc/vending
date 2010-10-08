@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 	The Caffeine Interface (Alpha)
 
@@ -10,6 +11,7 @@
 """
 
 from mcgeivaa import *
+from mcgeivaa.McGeivaa import *
 
 class Caffeine(Vending):
 	def start(self):
