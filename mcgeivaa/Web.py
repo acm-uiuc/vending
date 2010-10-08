@@ -11,7 +11,7 @@ class _GetHandler(BaseHTTPRequestHandler):
 			htmlfile = caffeine_template()
 			log(Log.Info,"web", "Request from %s for page %s" % (self.client_address[0], self.path))
 			if self.path.startswith("/gui/"):
-				if not self.client_address0 == '127.0.0.1':
+				if not self.client_address[0] == '127.0.0.1':
 					self.send_response(403)
 					return
 			self.send_response(200)
