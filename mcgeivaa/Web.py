@@ -8,16 +8,19 @@ from CaffeineTemplate import caffeine_template
 
 class _GetHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
-			htmlfile = caffeine_template()
-			log(Log.Info,"web", "Request from %s for page %s" % (self.client_address[0], self.path))
-			if self.path.startswith("/gui/"):
-				if not self.client_address[0] == '127.0.0.1':
-					self.send_response(403)
-					return
-			self.send_response(200)
-			self.send_header("Content-type","text/html")
-			self.end_headers()
-			self.wfile.write(htmlfile)
+		# Set default path to the main page
+		path="caffeine.html"
+		log(Log.Info,"web", "Request from %s for page %s" % (self.client_address[0], self.path))
+		if self.path.startswith("/gui/"):
+			if not self.client_address[0] == '127.0.0.1':
+				self.send_response(403)
+				return
+			path = self.path[1:]
+		htmlfile = caffeine_template(path)
+		self.send_response(200)
+		self.send_header("Content-type","text/html")
+		self.end_headers()
+		self.wfile.write(htmlfile)
 	def do_STOP(self):
 		self.send_response(200)
 		self.end_headers()

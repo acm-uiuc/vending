@@ -1,7 +1,7 @@
 from pml import PML
 from McGeivaa import *
 
-def caffeine_template():
+def caffeine_template(path):
 	pml = PML()
 	pml.set("page_title", "Caffeine - Official Provider of Soda for ACM@UIUC Members")
 	try:
@@ -9,4 +9,4 @@ def caffeine_template():
 	except:
 		drinks = []
 	pml.set("drinks", drinks)
-	return pml.get_output("caffeine.html")
+	return pml.get_output(path)
