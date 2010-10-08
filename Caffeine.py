@@ -14,6 +14,8 @@ from mcgeivaa import Db, Gui, Serial, Web
 from mcgeivaa.McGeivaa import *
 
 class Caffeine(Vending):
+	def __init__(self):
+		Vending.__init__(self)
 	def start(self):
 		self.serial = Serial.Serial()
 		self.db = Db.MySQLBackend()
