@@ -98,13 +98,13 @@ left;
 
 table {
 	/*margin:		auto;*/
+	width:		423px;
 }
 table tr td {
 	border:		solid 1px #AAA;
 	font-size:	28px;
 	/*background-color:	#666;*/
 	/*padding:		3px;*/
-	width:		423px;
 }
 
 table tr.header td, table tr td.header {
