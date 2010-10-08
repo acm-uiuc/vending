@@ -10,7 +10,7 @@ class GraphicalInterface:
 	def __init__(self):
 		self.app = QApplication(sys.argv)
 		self.web = QWebView()
-		self.web.load(QUrl("http://localhost:%d/gui/main" % getConfig("web_port")))
+		self.web.load(QUrl("http://%s:%d/gui/main" % (getConfig("web_server"), getConfig("web_port"))))
 		log(Log.Info, "gui", "Qt/WebKit GUI is initialized.")
 		self.page_queue = []
 	def start(self):

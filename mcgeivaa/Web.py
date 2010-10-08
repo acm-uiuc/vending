@@ -38,7 +38,7 @@ class _WebThread(Thread):
 
 class Server:
 	def __init__(self):
-		self.server = HTTPServer(('localhost',getConfig("web_port")), _GetHandler)
+		self.server = HTTPServer((getConfig("web_server"),getConfig("web_port")), _GetHandler)
 		log(Log.Info,"web","Web server is ready.")
 	def start(self):
 		global isRunning
