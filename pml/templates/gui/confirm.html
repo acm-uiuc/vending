@@ -14,7 +14,7 @@
 	  <div id='middle-content'>
 		<div id='middle-text'>
 		  <? drink_id = env.last_button
-			 drink = env.trays[drink_id] ?>
+			 drink = env.tool.db.getItems()[drink_id] ?>
 		  <h2><? drink.title ?></h2>
 		  <img src="/assets/drinks/<? drink_id ?>.png" />
 		  <h3>$<? '%.2f' % drink.price ?></h3>
