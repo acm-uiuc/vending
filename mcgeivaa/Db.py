@@ -62,15 +62,18 @@ class MySQLBackend:
 			user_dict[i] = v
 		Environment.user = VendingUser(user_sql['uid'],user_sql['uin'],user_dict)
 		Environment.state = State.Authenticated
+		Environment.tool.gui.updateUser()
 		return True
 	def getItems(self):
 		Environment.trays = []
 		self.vend_database.query("SELECT * FROM `trays`")
 		t_result = self.vend_database.store_result()
 		for i in xrange(getConfig("tray_count")):
-			tray = t_result.fetch_row(how=1)[i]
-			self.vending_database.query("SELET * FROM `sodas` WHERE sid=%d" % int(tray['sid']))
-			s_result = self.vending_database.store_result()
+			tray = t_result.fetch_row(how=1)[0]
+			self.vend_database.query("SELECT * FROM `sodas` WHERE sid=%d" % int(tray['sid']))
+			s_result = self.vend_database.store_result()
 			soda = s_result.fetch_row(how=1)[0]
 			Environment.trays.append(VendingItem(soda['name'], i, tray['qty'], tray['price'], soda))
 		return Environment.trays
+	def chargeUser(self, amount):
+		pass

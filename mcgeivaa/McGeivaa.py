@@ -99,6 +99,11 @@ class Environment:
 	state = State.Initializing
 	user = None
 	trays = []
+	waiting_for = -1
+	last_button = -1
+
+class AckEvents:
+	Vend = 0
 
 class VendingUser:
 	def __init__(self, uin, uid, extra):
@@ -106,6 +111,8 @@ class VendingUser:
 		self.uid = uid
 		self.extra = extra
 		log(Log.Info,"api-user","Authenticated user %s %s with balance $%.2f" % (self.extra['first_name'], self.extra['last_name'], self.extra['balance']))
+	def canAfford(self, item):
+		return self.extra['balance'] >= item.price
 
 class VendingItem:
 	def __init__(self, title, tray, quantity, price, extra):
@@ -143,11 +150,22 @@ class Vending:
 		self.db.start()
 		self.web.start()
 		Environment.state = State.Ready
+		self.db.getItems()
 		self.gui.start() # GUI should take over from here.
 	def handleSerialData(self, data):
-		if data.startswith(getConfig("serial_data_card_prefix")):
-			log(Log.Verbose, "api-serial", "^ Card swipe.")
-			self.handleCardSwipe(data.replace(getConfig("serial_data_card_prefix"),""))
+		if Environment.state == State.Ready:
+			# Ready -> Card Reads
+			if data.startswith(getConfig("serial_data_card_prefix")):
+				log(Log.Verbose, "api-serial", "^ Card swipe.")
+				self.handleCardSwipe(data.replace(getConfig("serial_data_card_prefix"),""))
+		elif Environment.state == State.Authenticated or Environment.state == State.Confirm:
+			# Authenticated -> Button Presses
+			if data.startswith(getConfig("serial_data_button_prefix")):
+				log(Log.Verbose, "api-serial", "^ Button press.")
+				self.handleButtonPress(data.replace(getConfig("serial_data_button_prefix"),""))
+		elif Environment.state == State.Acknowledge:
+			if data.startswith(getConfig("serial_data_acknowledge_prefix")):
+				Environment.state = State.Ready
 	def handleCardSwipe(self, card):
 		if not card.startswith(";"):
 			log(Log.Error,"card-swipe", "Bad card: Missing ;")
@@ -160,6 +178,40 @@ class Vending:
 			return False
 		card_uin = card[5:14] # UIN
 		return self.db.authenticateUser(card_uin)
+	def handleButtonPress(self, data):
+		if len(data) < 1:
+			log(Log.Error, "button-press", "oh... crap (button press data is only one character")
+			return False
+		try:
+			button_id = int(data[0])
+		except:
+			log(Log.Error, "button-press", "Button is not a number.")
+			return False
+		if not data.find(getConfig("serial_data_button_up_prefix")) == "-1":
+			log(Log.Verbose, "button-press", "fyi: Button was pressed quickly and up was received with down.")
+		if Environment.state == State.Authenticated:
+			# This is a button press from this user. Check the trays.
+			log(Log.Info, "button-press", "Button %d pressed in Authenticated mode. Confirmation requested." % button_id)
+			this_tray = Environment.trays[button_id]
+			if Environment.user.canAfford(this_tray):
+				self.gui.showConfirmation(this_tray)
+				Environment.state = State.Confirm
+				Environment.last_button = button_id
+				return True
+			else:
+				self.gui.showCanNotAfford(this_tray)
+		elif Environment.state == State.Confirm:
+			if button_id == Environment.last_button:
+				log(Log.Info, "button-press", "Confirming selection. Vending!")
+				self.db.chargeUser(this_tray.price)
+				Environment.waiting_for = AckEvents.Vend
+				Environment.state = State.Acknowledge
+				return True
+			else:
+				log(Log.Info, "button-press", "User changed selection.")
+				Environment.state = State.Authenticated
+				return self.handleButtonPress(data)
+
 
 
 
