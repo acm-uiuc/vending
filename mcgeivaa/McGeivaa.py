@@ -23,10 +23,15 @@ def log(log_type, module_name, log_message):
 	if log_level is None:
 		log_level = Log.Warn
 	if log_type <= log_level:
-		sys.stdout.write("[%s] %s: %s\n" % (_logNames[log_type], module_name, log_message))
+		if getConfig("color_log"):
+			sys.stdout.write("[%s%s\033[0m] \033[1m%s\033[0m: %s\n" % (_logColors[log_type], _logNames[log_type], module_name, log_message))
+		else:
+			sys.stdout.write("[%s] %s: %s\n" % (_logNames[log_type], module_name, log_message))
+
 	pass # TODO: Write to log file regardless
 
-_logNames = ["Error", "Warn", "Notice", "Info"]
+_logNames	= ["Error",		"Warn",			"Notice",		"Info"]
+_logColors	= ["\033[1;31m","\033[1;33m",	"\033[1;34m",	"\033[1;30m"]
 
 class Log:
 	Error	= 0
