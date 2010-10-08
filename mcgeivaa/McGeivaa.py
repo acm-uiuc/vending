@@ -172,6 +172,7 @@ class Vending:
 			if data.startswith(getConfig("serial_data_acknowledge_prefix")):
 				log(Log.Info, "api-serial", "Acknowledged. Returning to Ready state.")
 				Environment.state = State.Ready
+				self.gui.showMain()
 	def handleCardSwipe(self, card):
 		if not card.startswith(";"):
 			log(Log.Error,"card-swipe", "Bad card: Missing ;")
