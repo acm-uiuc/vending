@@ -46,6 +46,24 @@ def fatalError(message):
 	# TODO: Shutdown, restart
 
 """
+	State
+"""
+
+class State:
+	Initalizing		= 0
+	Ready			= 1
+	Authenticated	= 2
+	Confirm			= 3
+	Acknowledge		= 4
+	Vending			= 5
+	Idaho			= 6
+	New_York		= 7
+	OfMind			= 8
+
+
+state = 0
+
+"""
 	Configuration
 """
 
