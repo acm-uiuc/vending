@@ -126,6 +126,8 @@ class Vending:
 		self.db.start()
 		self.web.start()
 		self.gui.start() # GUI should take over from here.
+	def handleSerialData(self, data):
+		pass
 
 """
 	Transaction Classes

@@ -54,4 +54,4 @@ class _SerialHandler(threading.Thread):
 		threading.Thread.start(self)
 	def run(self):
 		while self.isRunning:
-			pass
+			Tool.handleSerialData(self.parent.read())
