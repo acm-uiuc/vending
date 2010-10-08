@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><? pml.get('page_title') ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link href="caffeine.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+	<div id='shadow'>
+		<div id='banner'><!--><a href="."><img src='http://acm.uiuc.edu/caffeine/media/banner.gif' alt='caffeine' border='0'/></a><--!>Caffeine@ACM</div>
+		<div id='middle-header'>
+			&nbsp;Caffeine Inventory		</div>
+		<div id='middle-content'>
+			<div id='middle-text'>
+				<br/><table><tr class='header'><td></td><td>Beverage</td><td>Qty</td><td>Price</td></tr>
+<?
+i = 0
+for drink in pml.get('drinks'): ?>
+<? if drink.quantity == 0: ?>
+<tr class='tray_empty'><td class='header'><? print i ?></td><td>Empty, was <? print drink.title ?></td>
+<? #if
+else: ?>
+<tr><td class='header'><? print i ?></td><td><? print drink.title ?></td>
+<? #else ?>
+						<td class='c'><? print drink.quantity ?></td><td class='c'><? print "%.2f" % drink.price ?></td></tr>
+<?
+i += 1
+#for
+?>
+			</table></div>
+		</div>
+
+
+		<div id='copyright'>&copy; 2010 <a class="copyright" href="http://acm.uiuc.edu/lug">Linux Users Group</a> @ UIUC</div>
+	</div>
+</body>
+</html>
+
