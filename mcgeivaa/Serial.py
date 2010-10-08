@@ -32,8 +32,15 @@ class Serial:
 			fatalError("Serial device went missing")
 		except:
 			fatalError("Error on serial read")
-	def write(self):
-		
+	def write(self, data):
+		try:
+			bytesWritten = _serial.write(data)
+		except SerialTimeoutException:
+			log(Log.Error, "serial", "Failed to write %s, serial port timed out." % data)
+			fatalError("Device timed out on write")
+		except:
+			log(Log.Error, "serial", "Unknown error writing %s")
+			fatalError("Error on serial write")
 
 class _SerialHandler(threading.Thread):
 	def __init__(self, parent):
