@@ -37,17 +37,14 @@ class Serial:
 		except SystemExit:
 			log(Log.Error, "serial", "FATAL: Read blank data way too fast - serial device is gone.")
 			fatalError("Serial device went missing")
-		#except:
-		#	log(Log.Error, "serial", "FATAL: Unknown error occured on serial read.")
-		#	fatalError("Error on serial read")
+		except:
+			log(Log.Error, "serial", "FATAL: Unknown error occured on serial read.")
+			fatalError("Error on serial read")
 	def write(self, data):
 		try:
-			bytesWritten = _serial.write(data)
-			log(Log.Info, "serial" "Successfully wrote %s to serial interface." % data)
+			bytesWritten = self._serial.write(data)
+			log(Log.Info, "serial", "Successfully wrote %s to serial interface." % data)
 			log(Log.Verbose, "serial", "Wrote %s out to serial." % bytesWritten)
-		except SerialTimeoutException:
-			log(Log.Error, "serial", "FATAL: Failed to write %s, serial port timed out." % data)
-			fatalError("Device timed out on write")
 		except:
 			log(Log.Error, "serial", "FATAL: Unknown error writing %s")
 			fatalError("Error on serial write")

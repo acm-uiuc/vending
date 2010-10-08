@@ -34,3 +34,5 @@ class GraphicalInterface:
 		self.page_queue.append("cantafford")
 	def showVended(self):
 		self.page_queue.append("vended")
+	def showCancel(self):
+		self.page_queue.append("cancel")

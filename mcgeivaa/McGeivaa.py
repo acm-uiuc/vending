@@ -179,6 +179,11 @@ class Vending:
 			return False
 		card_uin = card[5:14] # UIN
 		return self.db.authenticateUser(card_uin)
+	def cancelTransaction(self):
+		Environment.user = None
+		Environment.tray = None
+		Environment.state = State.Ready
+		self.gui.showCancel()
 	def handleButtonPress(self, data):
 		if len(data) < 1:
 			log(Log.Error, "button-press", "oh... crap (button press data is only one character")
@@ -188,6 +193,11 @@ class Vending:
 		except:
 			log(Log.Error, "button-press", "Button is not a number.")
 			return False
+		# XXX: REMOVE THIS! THIS WILL CANCEL THE SESSION ON ANY PRESS OF BUTTON 0
+		if button_id == 0:
+			self.cancelTransaction()
+			return False
+		# XXX: ^^^ REMOVE THIS
 		if not data.find(getConfig("serial_data_button_up_prefix")) == "-1":
 			log(Log.Verbose, "button-press", "fyi: Button was pressed quickly and up was received with down.")
 		if Environment.state == State.Authenticated:
