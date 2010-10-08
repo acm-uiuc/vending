@@ -37,5 +37,4 @@ class MySQLBackend:
 			Get a user by their Card's ID number
 		"""
 		pass
-	def 
 
