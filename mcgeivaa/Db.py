@@ -36,5 +36,32 @@ class MySQLBackend:
 		"""
 			Get a user by their Card's ID number
 		"""
-		pass
+		# Pull user from `user` database
+		try:
+			card_id = int(card_id)
+		except:
+			log(Log.Error,"db-auth", "Card id is not an integer.")
+			return False
+		self.user_database.query("SELECT * FROM `users` WHERE uin=%d" % card_id)
+		t_result = self.user_database.store_result()
+		t_user = t_result.fetch_row(how=1)
+		if len(t_user) < 1:
+			log(Log.Error,"db-auth", "User not found in database: %d" % card_id)
+			return False
+		user_sql = t_user[0]
+		user_dict = {}
+		self.user_database.query("SELECT * FROM `vending` WHERE uid=%d" % user_sql['uid'])
+		t_result = self.user_database.store_result()
+		t_vending = t_result.fetch_row(how=1)
+		if len(t_vending) < 1:
+			log(Log.Error,"db-auth", "User was not found in vending db, this is bad.")
+			return False
+		vending_sql = t_vending[0]
+		user_dict = vending_sql
+		for i, v in user_sql.iteritems():
+			user_dict[i] = v
+		Environment.user = VendingUser(user_sql['uid'],user_sql['uin'],user_dict)
+		Environment.state = State.Authenticated
+		return True
+
 

@@ -50,7 +50,7 @@ def fatalError(message):
 """
 
 class State:
-	Initalizing		= 0
+	Initializing	= 0
 	Ready			= 1
 	Authenticated	= 2
 	Confirm			= 3
@@ -60,8 +60,6 @@ class State:
 	New_York		= 7
 	OfMind			= 8
 
-
-state = 0
 
 """
 	Configuration
@@ -98,6 +96,18 @@ def _readConfig():
 
 class Environment:
 	tool = 0
+	state = State.Initializing
+	user = None
+
+class VendingUser:
+	def __init__(self, uin, uid, extra):
+		self.uin = uin
+		self.uid = uid
+		self.extra = extra
+		log(Log.Info,"api-user","Authenticated user %s %s with balance $%.2f" % (self.extra['first_name'], self.extra['last_name'], self.extra['balance']))
+
+class VendingItem:
+	pass
 
 """
 	Main Object
@@ -126,9 +136,26 @@ class Vending:
 		self.serial.start()
 		self.db.start()
 		self.web.start()
+		Environment.state = State.Ready
 		self.gui.start() # GUI should take over from here.
 	def handleSerialData(self, data):
-		pass
+		if data.startswith(getConfig("serial_data_card_prefix")):
+			log(Log.Verbose, "api-serial", "^ Card swipe.")
+			self.handleCardSwipe(data.replace(getConfig("serial_data_card_prefix"),""))
+	def handleCardSwipe(self, card):
+		if not card.startswith(";"):
+			log(Log.Error,"card-swipe", "Bad card: Missing ;")
+			return False
+		if len(card) < 19:
+			log(Log.Error,"card-swipe", "Bad card: Not really long enough.")
+			return False
+		if not card[17] == "=":
+			log(Log.Error,"card-swipe", "Bad card: Missing =")
+			return False
+		card_uin = card[5:14] # UIN
+		return self.db.authenticateUser(card_uin)
+
+
 
 """
 	Transaction Classes
