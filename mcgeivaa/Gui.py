@@ -26,9 +26,11 @@ class GraphicalInterface:
 	def setPage(self, page):
 		self.web.load(QUrl("http://localhost:6969/gui/%s" % page))
 		log(Log.Info, "gui", "Loaded page %s." % page)
-	def showConfirmation(self, tray):
+	def showConfirmation(self):
 		self.page_queue.append("confirm")
 	def updateUser(self):
 		self.page_queue.append("user")
-	def showCanNotAfford(self, tray):
+	def showCanNotAfford(self):
 		self.page_queue.append("cantafford")
+	def showVended(self):
+		self.page_queue.append("vended")

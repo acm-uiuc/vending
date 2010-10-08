@@ -194,12 +194,12 @@ class Vending:
 			log(Log.Info, "button-press", "Button %d pressed in Authenticated mode. Confirmation requested." % button_id)
 			this_tray = Environment.trays[button_id]
 			if Environment.user.canAfford(this_tray):
-				self.gui.showConfirmation(this_tray)
+				self.gui.showConfirmation()
 				Environment.state = State.Confirm
 				Environment.last_button = button_id
 				return True
 			else:
-				self.gui.showCanNotAfford(this_tray)
+				self.gui.showCanNotAfford()
 		elif Environment.state == State.Confirm:
 			if button_id == Environment.last_button:
 				this_tray = Environment.trays[button_id]
