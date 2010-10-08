@@ -14,7 +14,7 @@ class Serial:
 					log(Log.Info, "serial", "Running at %d without a line timeout of %d." % (self._serial.baudrate, self._serial.timeout))
 					self._handler = _SerialHandler(self)
 					return
-				except Exception as e:
+				except:
 					attempts += 1
 		log(Log.Error, "serial", "Failed to initialize a serial device after 5 attempts, we're going nowhere.")
 		fatalError("No serial device")
@@ -26,9 +26,8 @@ class Serial:
 			data_in = _serial.read(255)
 			end_time = datetime.datetime.now()
 			read_time = end_time - start_time
-			if len(data_in) < 1:
-				if read_time.microseconds < 100:
-					sys.exit(2)
+			if (len(data_in) < 1) and (read_time.microseconds < 100):
+				sys.exit(2)
 			return data_in
 		except SystemExit:
 			log(Log.Error, "serial", "Read blank data way too fast - serial device is gone.")
