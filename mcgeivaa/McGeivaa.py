@@ -119,8 +119,12 @@ class Vending:
 		if self.gui is None:
 			log(Log.Error, "api-main", "No GUI module loaded. This is fatal.")
 			fatalError("No GUI module")
+		if self.web is None:
+			log(Log.Error, "api-main", "No Web module loaded. This is fatal.")
+			fatalError("No Web module")
 		self.serial.start()
 		self.db.start()
+		self.web.start()
 		self.gui.start() # GUI should take over from here.
 
 """
