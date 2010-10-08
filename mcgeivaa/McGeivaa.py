@@ -30,8 +30,8 @@ def log(log_type, module_name, log_message):
 
 	pass # TODO: Write to log file regardless
 
-_logNames	= ["Error",		"Warn",			"Notice",		"Info"]
-_logColors	= ["\033[1;31m","\033[1;33m",	"\033[1;34m",	"\033[1;30m"]
+_logNames	= ["Error",		"Warn",			"Notice",		"Info",			"Verbose"]
+_logColors	= ["\033[1;31m","\033[1;33m",	"\033[1;34m",	"\033[1;30m",	""]
 
 class Log:
 	Error	= 0
