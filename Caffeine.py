@@ -10,10 +10,12 @@
 	
 """
 
-from mcgeivaa import *
+from mcgeivaa import Db
 from mcgeivaa.McGeivaa import *
 
 class Caffeine(Vending):
 	def start(self):
-		self.db = Db.MySQLBackend
-		base.start(self)
+		self.db = Db.MySQLBackend()
+		Vending.start(self)
+
+Caffeine().start()
