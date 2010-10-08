@@ -1,49 +1,48 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title><? pml.get('page_title') ?></title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<link href="/caffeine.css" rel="stylesheet" type="text/css"/>
-	</head>
-	<body>
-		<div id='shadow'>
-			<div id='banner'>Caffeine@ACM</div>
-			<div id='middle-header'>User Information</div>
-			<div>
-				<table>
-					<?
-					   i=0
-					   for drink in pml.get('globals')['Environment'].tool.db.getItems():
-					?>
-					<?  if drink.quantity == 0: ?>
-					<tr class='tray_empty'><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'>Empty <span style='font-size: 16px;'>(was <? print drink.title ?>)</span></td></tr>
-					<tr class='tray_empty'><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
-					<?
-						#if
-						else:
-					?>
-					<tr><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'><? print drink.title ?></td></tr>
-					<tr><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
-					<? #else ?>
-					<?
-						 i +=1
-						 #for
-					?>
-				</table>
-			</div>
-			<div id='middle-content'>
-				<div id='middle-text'>
-					<?
-					user = pml.get('globals')['Environment'].user
-					?>
-					<table>
-						<tr><td><b><? print user.extra['first_name'] ?></b></td><td><b><? print user.extra['last_name'] ?></b></td></tr>
-						<tr><td>Balance</td><td><? print "$%.2f" % user.extra['balance'] ?></td></tr>
-					</table>
-				</div>
-			</div>
-			<div id='copyright'>&copy; 2010 <a class="copyright" href="http://acm.uiuc.edu/lug">Linux Users Group</a> @ UIUC</div>
+  <head>
+	<title><? pml.get('page_title') ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link href="/caffeine.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+	<div id='shadow'>
+	  <div id='banner'>Caffeine@ACM</div>
+	  <div id='middle-header'>User Information</div>
+	  <div id='middle-content'>
+		<div id='middle-text'>
+		  <?
+			 user = pml.get('globals')['Environment'].user
+			 ?>
+		  <table>
+			<tr><td><b><? print user.extra['first_name'] ?></b></td><td><b><? print user.extra['last_name'] ?></b></td></tr>
+			<tr><td>Balance</td><td><? print "$%.2f" % user.extra['balance'] ?></td></tr>
+		  </table>
 		</div>
-	</body>
-</html>
 
+		<table class="left-content">
+		  <?
+			 i=0
+			 for drink in pml.get('globals')['Environment'].tool.db.getItems():
+			 ?>
+		  <?  if drink.quantity == 0: ?>
+		  <tr class='tray_empty'><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'>Empty <span style='font-size: 16px;'>(was <? print drink.title ?>)</span></td></tr>
+		  <tr class='tray_empty'><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
+			<?
+			   #if
+			   else:
+			   ?>
+		  <tr><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'><? print drink.title ?></td></tr>
+		  <tr><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
+			<? #else ?>
+			<?
+			   i +=1
+			   #for
+			   ?>
+		</table>
+		<div style='clear: both;'></div>
+	  </div>
+	  <div id='copyright'>&copy; 2010 <a class="copyright" href="http://acm.uiuc.edu/lug">Linux Users Group</a> @ UIUC</div>
+	</div>
+  </body>
+</html>
