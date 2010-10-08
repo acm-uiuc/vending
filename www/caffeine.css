@@ -61,6 +61,7 @@ left;
 			width:		1270px;
 			font-weight:	bold;
 			font-size:	28px;
+			text-align: center;
 		}
 		#middle-content {
 			/*background:	#666 url(middle_background.gif) repeat-y;*/
@@ -69,6 +70,7 @@ left;
 			/*margin-left:	10px;*/
 			/*width:		578px;*/
 			width:		1270px;
+			text-align: center;
 		}
 			#middle-text {
 				/*color:		#FFF;*/
@@ -98,7 +100,6 @@ left;
 
 table {
 	/*margin:		auto;*/
-	width:		423px;
 }
 table tr td {
 	border:		solid 1px #AAA;
