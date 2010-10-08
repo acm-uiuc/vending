@@ -26,20 +26,23 @@ class _GetHandler(BaseHTTPRequestHandler):
 
 isRunning = False
 
-def serve(server):
-	global isRunning
-	while isRunning:
-		server.handle_request()
-
+class _WebThread(Thread):
+	def __init__(self, server):
+		Thread.__init__(self)
+		self.server = server
+	def run(self):
+		global isRunning
+		while isRunning:
+			self.server.server.handle_request()
 
 class Server:
 	def __init__(self):
 		global isRunning
-		self = HTTPServer(('localhost',6969), _GetHandler)
+		self.server = HTTPServer(('localhost',6969), _GetHandler)
 		isRunning = True
 
 	def start(self):
-		mythread = Thread(target = serve, args = (self,))
+		mythread = _WebThread(self)
 		mythread.start()
 
 
