@@ -5,10 +5,10 @@ from McGeivaa import *
 from CaffeineTemplate import caffeine_template
 
 
-htmlfile = caffeine_template()
 
 class _GetHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
+			htmlfile = caffeine_template()
 			log(Log.Info,"web", "Request from %s for page %s" % (self.client_address[0], self.path))
 			self.send_response(200)
 			self.send_header("Content-type","text/html")
