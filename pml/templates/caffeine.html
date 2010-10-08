@@ -2,46 +2,36 @@
 <html>
 <head>
 	<title><? pml.get('page_title') ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<link href="acm.uiuc.edu/caffeine/media/caffeine.css" rel="stylesheet" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link href="http://acm.uiuc.edu/caffeine/media/caffeine.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 	<div id='shadow'>
-		<div id='banner'><a href="."><img src='acm.uiuc.edu/caffeine/media/banner.gif' alt='caffeine' border='0'/></a></div>
+		<div id='banner'><a href="."><img src='http://acm.uiuc.edu/caffeine/media/banner.gif' alt='caffeine' border='0'/></a></div>
 		<div id='middle-header'>
 			&nbsp;Caffeine Inventory		</div>
 		<div id='middle-content'>
 			<div id='middle-text'>
-
 				<br/><table><tr class='header'><td></td><td>Beverage</td><td>Qty</td><td>Price</td></tr>
-					<? for all drink in pml.get('drinks'): ?>
-						<? if drink.quantity == 0: ?>
-						<tr class='tray_empty'><td class='header'>0</td><td>Empty, was <? print drink.title ?></td>
-						<? else: ?>
-							<tr><td class='header'>0</td><td><? print drink.title ?></td>
-						<? #if ?>
+<?
+i = 0
+for drink in pml.get('drinks'): ?>
+<? if drink.quantity == 0: ?>
+<tr class='tray_empty'><td class='header'><? print i ?></td><td>Empty, was <? print drink.title ?></td>
+<? #if
+else: ?>
+<tr><td class='header'><? print i ?></td><td><? print drink.title ?></td>
+<? #else ?>
 						<td class='c'><? print drink.quantity ?></td><td class='c'><? print drink.price ?></td></tr>
-						<? #for ?>
-
-
-
-
-						<!--><tr class='tray_empty'><td class='header'>0</td><td>Empty, was A&W</td><td class='c'>0</td><td class='c'>$0.50</td></tr>
-					<tr class='tray_empty'><td class='header'>1</td><td>Empty, was Canada Dry</td><td class='c'>0</td><td class='c'>$0.50</td></tr>
-					<tr class='tray_empty'><td class='header'>2</td><td>Empty, was Meijer Orange</td><td class='c'>0</td><td class='c'>$0.50</td></tr>
-					<tr class='tray_empty'><td class='header'>3</td><td>Empty, was Wild Cherry Pepsi</td><td class='c'>0</td><td class='c'>$0.50</td></tr>
-					<tr><td class='header'>4</td><td>7 Up</td><td class='c'>27</td><td class='c'>$0.50</td></tr>
-					<tr><td class='header'>5</td><td>Diet Pepsi</td><td class='c'>25</td><td class='c'>$0.50</td></tr>
-					<tr><td class='header'>6</td><td>Mountain Dew</td><td class='c'>23</td><td class='c'>$0.50</td></tr>
-					<tr><td class='header'>7</td><td>Pepsi</td><td class='c'>25</td><td class='c'>$0.50</td></tr>
-					<tr><td class='header'>8</td><td>Dr. Pepper</td><td class='c'>25</td><td class='c'>$0.50</td></tr></table><br/><--!>
-</div>
-
+<?
+i += 1
+#for
+?>
+			</table></div>
 		</div>
 		<div id='copyright'>&copy; 2008 <a class="copyright" href="http://acm.uiuc.edu/webmonkeys">Webmonkeys</a> @ UIUC</div>
 		<div id='copyright'>&copy; 2010 <a class="copyright" href="http://acm.uiuc.edu/lug">Linux Users Group</a> @ UIUC</div>
 	</div>
-
 </body>
 </html>
 

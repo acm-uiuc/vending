@@ -543,7 +543,7 @@ class PMLOutputCapture(object):
         self.buffers.append(cStringIO.StringIO()) 
     
     def write(self, string):
-        self.buffers[-1].write(string.encode(self.pml.config["encoding"]))
+        self.buffers[-1].write(str(string).encode(self.pml.config["encoding"]))
     
     def get_buffer(self):
         return self.buffers.pop().getvalue()
