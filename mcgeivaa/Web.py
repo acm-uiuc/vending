@@ -16,7 +16,7 @@ class _GetHandler(BaseHTTPRequestHandler):
 				self.send_response(403)
 				return
 			path = self.path[1:]
-		htmlfile = caffeine_template(path)
+		htmlfile = caffeine_template(path + ".html")
 		self.send_response(200)
 		self.send_header("Content-type","text/html")
 		self.end_headers()

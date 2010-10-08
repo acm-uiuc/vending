@@ -20,7 +20,7 @@ for drink in pml.get('drinks'): ?>
 <tr class='tray_empty'><td class='header'><? print i ?></td><td>Empty, was <? print drink.title ?></td>
 <? #if
 else: ?>
-<tr><td class='header'><? print i ?></td><td><? print drink.title ?></td>
+<tr><td class='header'><? print i ?></td><td>[ <? print drink.extra['sid'] ?> ] <? print drink.title ?></td>
 <? #else ?>
 						<td class='c'><? print drink.quantity ?></td><td class='c'><? print "%.2f" % drink.price ?></td></tr>
 <?
@@ -29,8 +29,9 @@ i += 1
 ?>
 			</table></div>
 		</div>
-		<div><center><img src="http://www.acm.uiuc.edu/~lange7/card_anim.gif" /></center></div>
-		<div id='copyright'>&copy; 2008 <a class="copyright" href="http://acm.uiuc.edu/webmonkeys">Webmonkeys</a> @ UIUC</div>
+		<div><center><img src="http://www.acm.uiuc.edu/lug/vending/assets/drinks/2.png" />
+		<img src="http://www.acm.uiuc.edu/lug/vending/assets/drinks/12.png" />
+		<img src="http://www.acm.uiuc.edu/lug/vending/assets/drinks/15.png" /></center></div>
 		<div id='copyright'>&copy; 2010 <a class="copyright" href="http://acm.uiuc.edu/lug">Linux Users Group</a> @ UIUC</div>
 	</div>
 </body>
