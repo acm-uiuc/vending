@@ -73,8 +73,14 @@ left;
 			text-align: center;
 		}
 			#middle-text {
-				/*color:		#FFF;*/
-				/*padding:	4px;*/
+				text-align: middle;
+				position: relative;
+				right: 432px;
+			}
+
+			#left-content {
+				width: 432px;
+				position: relative;
 			}
 		#copyright {
 			bbottom:		5px;
