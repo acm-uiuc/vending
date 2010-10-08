@@ -66,7 +66,7 @@ def _readConfig():
 
 Tool = None
 
-def Vending:
+class Vending:
 	"""
 		Vending API super class
 	"""
