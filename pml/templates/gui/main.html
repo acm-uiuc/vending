@@ -17,7 +17,7 @@
 						   for drink in pml.get('globals')['Environment'].tool.db.getItems():
 						?>
 						<?  if drink.quantity == 0: ?>
-						<tr class='tray_empty'><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'>Empty, was<font size = '16'> <? print drink.title ?></font></td></tr>
+						<tr class='tray_empty'><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'>Empty, was <div style='font-size: 16px;'> <? print drink.title ?></div></td></tr>
 						<tr class='tray_empty'><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td>
 						<?
 							#if
