@@ -22,7 +22,7 @@ for drink in pml.get('drinks'): ?>
 else: ?>
 <tr><td class='header'><? print i ?></td><td><? print drink.title ?></td>
 <? #else ?>
-						<td class='c'><? print drink.quantity ?></td><td class='c'><? print drink.price ?></td></tr>
+						<td class='c'><? print drink.quantity ?></td><td class='c'><? print "%.2f" % drink.price ?></td></tr>
 <?
 i += 1
 #for
