@@ -16,10 +16,11 @@ class Serial:
 					return
 				except:
 					attempts += 1
-		log(Log.Error, "serial", "Failed to initialize a serial device after 5 attempts, we're going nowhere.")
+		log(Log.Error, "serial", "FATAL: Failed to initialize a serial device after 5 attempts, we're going nowhere.")
 		fatalError("No serial device")
 	def start(self):
 		self._handler.start()
+		log(log.Info, "serial", "Device started, serial interface running.")
 	def read(self):
 		try:
 			start_time = datetime.datetime.now()
@@ -28,20 +29,24 @@ class Serial:
 			read_time = end_time - start_time
 			if (len(data_in) < 1) and (read_time.microseconds < 100):
 				sys.exit(2)
+			log(log.Debug, "serial", "Read %s from serial device." % data_in)
 			return data_in
 		except SystemExit:
-			log(Log.Error, "serial", "Read blank data way too fast - serial device is gone.")
+			log(Log.Error, "serial", "FATAL: Read blank data way too fast - serial device is gone.")
 			fatalError("Serial device went missing")
 		except:
+			log(Log.Error, "serial", "FATAL: Unknown error occured on serial read.")
 			fatalError("Error on serial read")
 	def write(self, data):
 		try:
 			bytesWritten = _serial.write(data)
+			log(Log.Info, "serial" "Successfully wrote %s to serial interface." % data)
+			log(Log.Verbose, "serial", "Wrote %s out to serial." % bytesWritten)
 		except SerialTimeoutException:
-			log(Log.Error, "serial", "Failed to write %s, serial port timed out." % data)
+			log(Log.Error, "serial", "FATAL: Failed to write %s, serial port timed out." % data)
 			fatalError("Device timed out on write")
 		except:
-			log(Log.Error, "serial", "Unknown error writing %s")
+			log(Log.Error, "serial", "FATAL: Unknown error writing %s")
 			fatalError("Error on serial write")
 
 class _SerialHandler(threading.Thread):
