@@ -151,15 +151,12 @@ class _GetHandler(BaseHTTPRequestHandler):
 	def log_message(self, format, *args):
 		pass
 
-isRunning = False
-
 class _WebThread(Thread):
 	def __init__(self, server):
 		Thread.__init__(self)
 		self.server = server
 	def run(self):
-		global isRunning
-		while isRunning:
+		while self.server.isRunning:
 			self.server.server.handle_request()
 
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
@@ -168,10 +165,11 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
 class Server:
 	def __init__(self):
 		self.server = ThreadedHTTPServer((getConfig("web_server"),getConfig("web_port")), _GetHandler)
+		self.server.timeout = 1
+		self.thread = None
 		log(Log.Info,"web","Web server is ready.")
 	def start(self):
-		global isRunning
-		isRunning = True
-		mythread = _WebThread(self)
-		mythread.start()
+		self.isRunning = True
+		self.thread = _WebThread(self)
+		self.thread.start()
 		log(Log.Notice,"web","Web server is running.")
