@@ -15,7 +15,7 @@ def handleSignal(signum, frame):
 	if signum == signal.SIGINT:
 		log(Log.Notice, "api", "Interrupt received, shutting down.")
 		Environment.tool.web.isRunning = False
-		Environment.tool.serial._serial.isRunning = False
+		Environment.tool.serial._handler.isRunning = False
 		Environment.tool.gui.app.quit()
 		log(Log.Notice, "api", "Shutdown complete.")
 		sys.exit(1)
