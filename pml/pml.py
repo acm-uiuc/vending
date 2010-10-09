@@ -55,7 +55,7 @@ import sys
 import thread
 import time
 
-from mcgeivaa.McGeivaa import *
+from vending.Vending import *
 
 class PML(object):
     
