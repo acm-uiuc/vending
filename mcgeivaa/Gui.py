@@ -22,21 +22,23 @@ class GraphicalInterface:
 		self.app.exec_()
 	def processUpdates(self):
 		if len(self.page_queue) > 0:
-			self.setPage(self.page_queue.pop())
-	def setPage(self, page):
+			self.setPage_(self.page_queue.pop())
+	def setPage_(self, page):
 		self.web.load(QUrl("http://localhost:6969/gui/%s" % page))
 		log(Log.Info, "gui", "Loaded page %s." % page)
+	def setPage(self, page):
+		self.page_queue.append(page)
 	def showMain(self):
-		self.page_queue.append("main")
+		self.setPage("main")
 	def showConfirmation(self):
-		self.page_queue.append("confirm")
+		self.setPage("confirm")
 	def updateUser(self):
-		self.page_queue.append("user")
+		self.setPage("user")
 	def showCanNotAfford(self):
-		self.page_queue.append("cantafford")
+		self.setPage("cantafford")
 	def showVended(self):
-		self.page_queue.append("vended")
+		self.setPage("vended")
 	def showCancel(self):
-		self.page_queue.append("cancel")
+		self.setPage("cancel")
 	def showEmpty(self):
-		self.page_queue.append("empty")
+		self.setPage("empty")

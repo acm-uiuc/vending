@@ -1,6 +1,6 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from threading import Thread
-import mimetypes
+import mimetypes, difflib
 
 from McGeivaa import *
 from CaffeineTemplate import caffeine_template
@@ -130,7 +130,12 @@ class _GetHandler(BaseHTTPRequestHandler):
 			if command == "quit":
 				exit = True
 			else:
-				Environment.tool.telnetCommand(command, self.wfile, self.rfile)
+				if not Environment.tool.telnetCommand(command, self.wfile, self.rfile):
+					matches = difflib.get_close_matches(command.split(' ')[0], Environment.tool.telnetListCommands())
+					if len(matches) > 0:
+						self.wfile.write("\033[1;31mInvalid command.\033[0m Did you mean \033[1m%s\033[0m?\n" % matches[0])
+					else:
+						self.wfile.write("\033[1;31mInvalid command:\033[0m %s\n" % command)
 		self.wfile.write("\033[1mThank you for using ACM Vending.\033[0m\n")
 		self.wfile.flush()
 		log(Log.Notice, "telnet", "Telnet session disconnected.")
