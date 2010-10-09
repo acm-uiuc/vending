@@ -1,7 +1,7 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from threading import Thread
 from SocketServer import ThreadingMixIn
-from pml import PM
+from pml import PML
 from Vending import *
 import mimetypes, difflib
 
