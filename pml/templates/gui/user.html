@@ -9,18 +9,9 @@
 	<div id='shadow'>
 	  <div id='banner'>Caffeine@ACM</div>
 	  <div id='middle-header'>User Information</div>
-	  <div id='middle-content'>
-		<div id='middle-text'>
-		  <?
-			 user = pml.get('globals')['Environment'].user
-			 ?>
-		  <table>
-			<tr><td><b><? print user.extra['first_name'] ?></b></td><td><b><? print user.extra['last_name'] ?></b></td></tr>
-			<tr><td>Balance</td><td><? print "$%.2f" % user.extra['balance'] ?></td></tr>
-		  </table>
-		</div>
-
-		<table class="left-content">
+	  <div class='middle-content'>
+		<div class="left-content">
+		<table width="100%">
 		  <?
 			 i=0
 			 for drink in pml.get('globals')['Environment'].tool.db.getItems():
@@ -39,7 +30,19 @@
 			   i +=1
 			   #for
 			   ?>
-		</table>
+		   </table>
+	   </div>
+	   <div class="right-content">
+	   <div class='middle-text'>
+		  <?
+			 user = pml.get('globals')['Environment'].user
+			 ?>
+		  <table>
+			<tr><td><b><? print user.extra['first_name'] ?></b></td><td><b><? print user.extra['last_name'] ?></b></td></tr>
+			<tr><td>Balance</td><td><? print "$%.2f" % user.extra['balance'] ?></td></tr>
+		  </table>
+		</div>
+		</div>
 		<div style='clear: both;'></div>
 	  </div>
 	  <div id='copyright'>&copy; 2010 <a class="copyright" href="http://acm.uiuc.edu/lug">Linux Users Group</a> @ UIUC</div>
