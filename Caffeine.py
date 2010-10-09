@@ -2,7 +2,7 @@
 """
 	The Caffeine Interface (Alpha)
 
-	Powered by McGeivaa
+	Powered by ACM Vending
 	Uses:
 	- MySQL for Database Backend
 	- A theme based on the original PHP web interface
@@ -10,15 +10,15 @@
 	
 """
 
-from mcgeivaa import Db, Gui, Serial, Web, McGeivaa
+from vending import Db, Gui, Serial, Web, Vending
 
-class Caffeine(McGeivaa.Vending):
+class Caffeine(Vending.Vending):
 	def start(self):
 		McGeivaa.Environment.tool = self
 		self.serial = Serial.Serial()
 		self.db = Db.MySQLBackend()
 		self.web = Web.Server()
 		self.gui = Gui.GraphicalInterface()
-		McGeivaa.Vending.start(self)
+		Vending.Vending.start(self)
 
 Caffeine().start()
