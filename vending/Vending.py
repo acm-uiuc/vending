@@ -31,8 +31,6 @@ def log(log_type, module_name, log_message):
 	Environment.log_file.write("%s [%s] %s: %s\n" % (datetime.datetime.now().isoformat(' '), _logNames[log_type], module_name, log_message))
 	Environment.log_file.flush()
 
-	pass # TODO: Write to log file regardless
-
 _logNames	= ["Error",		"Warn",			"Notice",		"Info",			"Verbose"]
 _logColors	= ["\033[1;31m","\033[1;33m",	"\033[1;34m",	"\033[1;30m",	""]
 
@@ -42,7 +40,6 @@ class Log:
 	Notice	= 2
 	Info	= 3
 	Verbose	= 4
-	# TODO: Add any other log levels and ensure INFO is the most trivial. Adjust values to match.
 
 def fatalError(message):
 	"""
@@ -86,7 +83,7 @@ def _readConfig():
 		Read the configuration
 	"""
 	try:
-		conf_file = open("vend.conf")
+		conf_file = open("machine.conf")
 		conf = conf_file.readlines()
 		for i in conf:
 			if (i.startswith("#")):
@@ -100,7 +97,7 @@ def _readConfig():
 			log(Log.Info, "api-main", "Setting config value `%s` to `%s`." % (arr[0], arr[1]))
 		log(Log.Notice, "api-main", "Finished reading config file.")
 	except:
-		log(Log.Warn, "api-main", "Could not read config file (vend.conf), this may be bad.")
+		log(Log.Warn, "api-main", "Could not read config file (machine.conf), this may be bad.")
 
 class Environment:
 	tool = 0
