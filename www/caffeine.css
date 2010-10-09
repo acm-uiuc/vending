@@ -21,7 +21,6 @@ a.copyright:hover {
 #shadow {
 	/*bbackground:	#666 url(shadow_background.gif) repeat-y top */
 left;
-	hheight:		100%;
 	margin:		0 auto;
 	/*padding:		0 22px 10px 22px;*/
 	/*width:		601px;*/
@@ -60,7 +59,7 @@ left;
 			font-size:	28px;
 			text-align: center;
 		}
-		#middle-content {
+		.middle-content {
 			width:		1270px;
     }
 			.middle-text {
