@@ -85,7 +85,7 @@ class PML(object):
         self._var_cache = {}
         
         self.config = {}
-        self.config["templates_folder"] = self.pml_folder + self.ds + "templates"
+        self.config["templates_folder"] = self.pml_folder + self.ds + ".." + self.ds + "www"
         self.config["tmp_folder"] = self.pml_folder + self.ds + "tmp"
         self.config["force_compile"] = False
         self.config["pack_output"] = False
