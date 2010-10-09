@@ -235,9 +235,27 @@ class Vending:
 				log(Log.Info, "button-press", "User changed selection.")
 				Environment.state = State.Authenticated
 				return self.handleButtonPress(data)
-
-
-
+	def telnetCommand(self, command, wfile, rfile):
+		log(Log.Info, "telnet", "Telnet command received: %s" % command)
+		args = command.split(" ")
+		if len(args) < 1:
+			return
+		if args[0] == "help":
+			wfile.write("Welcome to the ACM Vending telnet interface.\n")
+			wfile.write("You can use this interface to get information about this vending machine\n")
+			wfile.write("and your ACM vending account.\n")
+		elif args[0] == "status":
+			wfile.write("\033[1mTrays:\033[0m\n")
+			for tray in Environment.trays:
+				if tray.quantity == 0:
+					color = "31"
+				elif tray.quantity < 5:
+					color = "1;33"
+				elif tray.quantity < 25:
+					color = "1;32"
+				else:
+					color = "1;34"
+				wfile.write("%d: %s ($%.2f) \033[%sm%d remaining\033[0m\n" % (tray.tray, tray.title.ljust(20), tray.price, color, tray.quantity))
 
 """
 	Transaction Classes

@@ -11,7 +11,7 @@ mimetypes.init()
 
 class _GetHandler(BaseHTTPRequestHandler):
 	def __init__(self, a, b, c):
-		log(Log.Warn, "web-handler", "Received a request...")
+		log(Log.Info, "web-handler", "Incoming connection.")
 		BaseHTTPRequestHandler.__init__(self, a, b, c)
 	def parse_request(self):
 		self.command = None  # set in case of error on the first line
@@ -25,6 +25,7 @@ class _GetHandler(BaseHTTPRequestHandler):
 		self.requestline = requestline
 		words = requestline.split()
 		if len(words) < 3:
+			self.command = words[0]
 			self.do_term()
 			return False
 		if len(words) == 3:
@@ -110,17 +111,29 @@ class _GetHandler(BaseHTTPRequestHandler):
 			self.end_headers()
 			self.wfile.write(htmlfile)
 	def do_term(self):
+		if self.command == "help":
+			self.wfile.write("%s\n%s\n%s\n" % ("This is the combined telnet/http server for an ACM Vending instance.",
+					"To active a terminal session, enter `term`.","You will now be disconnected."))
+			return False
+		if not self.command == "term":
+			self.send_response(400)
+			self.wfile.write("Invalid command specified. If you are seeing this from a web browser, your web browser has sent an invalid HTTP request.\nYou will now be disconnected.\n")
+			return False
+		log(Log.Notice, "telnet", "Telnet session active.")
 		self.wfile.write("\033[1mACM Vending - Telnet Interface\033[0m\n")
 		self.wfile.flush()
 		command = ""
 		exit = False
 		while not exit:
-			self.wfile.write("\033[33m>\033[0m ")
+			self.wfile.write("\033[1;34m>\033[0m ")
 			command = self.rfile.readline().strip()
 			if command == "quit":
 				exit = True
-		self.wfile.write("\033[1mThank you for using ACM Vending.\033[0m")
+			else:
+				Environment.tool.telnetCommand(command, self.wfile, self.rfile)
+		self.wfile.write("\033[1mThank you for using ACM Vending.\033[0m\n")
 		self.wfile.flush()
+		log(Log.Notice, "telnet", "Telnet session disconnected.")
 	def do_STOP(self):
 		self.send_response(200)
 		self.end_headers()
