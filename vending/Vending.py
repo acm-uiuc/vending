@@ -14,10 +14,19 @@ import sys, datetime, signal, time
 def handleSignal(signum, frame):
 	if signum == signal.SIGINT:
 		log(Log.Notice, "api", "Interrupt received, shutting down.")
-		Environment.tool.web.isRunning = False
-		Environment.tool.serial._handler.isRunning = False
-		Environment.tool.serial._handler.join()
-		Environment.tool.gui.app.quit()
+		try:
+			Environment.tool.web.isRunning = False
+			Environment.tool.serial._handler.isRunning = False
+		except:
+			pass
+		try:
+			Environment.tool.serial._handler.join()
+		except:
+			pass
+		try:
+			Environment.tool.gui.app.quit()
+		except:
+			pass
 		log(Log.Notice, "api", "Shutdown complete.")
 		sys.exit(1)
 
