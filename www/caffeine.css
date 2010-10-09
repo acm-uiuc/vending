@@ -62,7 +62,6 @@ left;
 		}
 		#middle-content {
 			width:		1270px;
-        text-align: center;
     }
 			.middle-text {
 				text-align: center;
@@ -76,7 +75,6 @@ left;
       .right-content {
         width: 838px;
         float: left;
-        background-color: black;
       }
 			.left-content {
 				width: 432px;

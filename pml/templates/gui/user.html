@@ -37,10 +37,8 @@
 		  <?
 			 user = pml.get('globals')['Environment'].user
 			 ?>
-		  <table>
-			<tr><td><b><? print user.extra['first_name'] ?></b></td><td><b><? print user.extra['last_name'] ?></b></td></tr>
-			<tr><td>Balance</td><td><? print "$%.2f" % user.extra['balance'] ?></td></tr>
-		  </table>
+			 <span style="font-size: 36px;"><? print user.extra['first_name'] ?> <? print user.extra['last_name'] ?></span><br />
+			 <b>Balance:</b> <? print "$%.2f" % user.extra['balance'] ?><br />
 		</div>
 		</div>
 		<div style='clear: both;'></div>
