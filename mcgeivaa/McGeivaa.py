@@ -6,7 +6,7 @@
 	and attaching them to the Internet.
 """
 
-import sys
+import sys, datetime
 
 """
 	Logging Routines and Types
@@ -27,6 +27,10 @@ def log(log_type, module_name, log_message):
 			sys.stdout.write("[%s%s\033[0m] \033[1m%s\033[0m: %s\n" % (_logColors[log_type], _logNames[log_type], module_name, log_message))
 		else:
 			sys.stdout.write("[%s] %s: %s\n" % (_logNames[log_type], module_name, log_message))
+	if not Environment.log_file:
+		Environment.log_file = open("debug.log", "a")
+	Environment.log_file.write("%s [%s] %s: %s\n" % (datetime.datetime.now().isoformat(' '), _logNames[log_type], module_name, log_message))
+	Environment.log_file.flush()
 
 	pass # TODO: Write to log file regardless
 
@@ -106,6 +110,7 @@ class Environment:
 	trays = []
 	waiting_for = -1
 	last_button = -1
+	log_file = None
 
 class AckEvents:
 	Vend = 0
@@ -235,15 +240,20 @@ class Vending:
 				log(Log.Info, "button-press", "User changed selection.")
 				Environment.state = State.Authenticated
 				return self.handleButtonPress(data)
+	def telnetListCommands(self):
+		return {"help": "Show this help text.", "status": "Display current system status."}
 	def telnetCommand(self, command, wfile, rfile):
 		log(Log.Info, "telnet", "Telnet command received: %s" % command)
 		args = command.split(" ")
 		if len(args) < 1:
 			return
 		if args[0] == "help":
-			wfile.write("Welcome to the ACM Vending telnet interface.\n")
+			wfile.write("\033[1mWelcome to the ACM Vending telnet interface.\033[0m\n")
 			wfile.write("You can use this interface to get information about this vending machine\n")
 			wfile.write("and your ACM vending account.\n")
+			wfile.write("\033[1mAvailable commands:\033[0m\n")
+			for c, t in self.telnetListCommands().iteritems():
+				wfile.write("%s %s\n" % (c.ljust(10),t))
 		elif args[0] == "status":
 			wfile.write("\033[1mTrays:\033[0m\n")
 			for tray in Environment.trays:
@@ -256,6 +266,11 @@ class Vending:
 				else:
 					color = "1;34"
 				wfile.write("%d: %s ($%.2f) \033[%sm%d remaining\033[0m\n" % (tray.tray, tray.title.ljust(20), tray.price, color, tray.quantity))
+		# DEBUG COMMANDS XXX REMOVE THESE XXX
+		elif args[0] == "user":
+			wfile.write("Authenticating user with UIN %s\n" % args[1])
+			self.db.authenticateUser(args[1])
+
 
 """
 	Transaction Classes
