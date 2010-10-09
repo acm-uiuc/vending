@@ -14,7 +14,7 @@ from vending import Db, Gui, Serial, Web, Vending
 
 class Caffeine(Vending.Vending):
 	def start(self):
-		McGeivaa.Environment.tool = self
+		Vending.Environment.tool = self
 		self.serial = Serial.Serial()
 		self.db = Db.MySQLBackend()
 		self.web = Web.Server()

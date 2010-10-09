@@ -4,7 +4,7 @@ import sys, threading
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4.QtWebKit import *
-from McGeivaa import *
+from Vending import *
 
 class GraphicalInterface:
 	def __init__(self):
