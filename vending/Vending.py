@@ -5,7 +5,21 @@
 	and attaching them to the Internet.
 """
 
-import sys, datetime
+import sys, datetime, signal, time
+
+"""
+	Signal Handling
+"""
+
+def handleSignal(signum, frame):
+	if signum == signal.SIGINT:
+		log(Log.Notice, "api", "Interrupt received, shutting down.")
+		Environment.tool.web.isRunning = False
+		Environment.tool.gui.app.quit()
+		log(Log.Notice, "api", "Shutdown complete.")
+		sys.exit(1)
+
+signal.signal(signal.SIGINT, handleSignal)
 
 """
 	Logging Routines and Types
@@ -94,7 +108,10 @@ def _readConfig():
 				log(Log.Warn, "api-main", "Invalid configuration line: %s." % i)
 				continue
 			config_options[arr[0]] = eval(arr[1],globals(),locals())
-			log(Log.Info, "api-main", "Setting config value `%s` to `%s`." % (arr[0], arr[1]))
+			if arr[0].find("password") == -1:
+				log(Log.Info, "api-main", "Setting config value `%s` to `%s`." % (arr[0], arr[1]))
+			else:
+				log(Log.Info, "api-main", "Setting password value `%s`." % arr[0])
 		log(Log.Notice, "api-main", "Finished reading config file.")
 	except:
 		log(Log.Warn, "api-main", "Could not read config file (machine.conf), this may be bad.")
