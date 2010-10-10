@@ -2,6 +2,9 @@ import serial, time, threading, datetime
 from Vending import *
 
 class Serial:
+	"""
+	Serial interface.
+	"""
 	def __init__(self):
 		self._internal = Environment.tool
 		attempts = 0
@@ -20,9 +23,15 @@ class Serial:
 		log(Log.Error, "serial", "FATAL: Failed to initialize a serial device after 5 attempts, we're going nowhere.")
 		fatalError("No serial device")
 	def start(self):
+		"""
+		Start the serial handler.
+		"""
 		self._handler.start()
 		log(Log.Info, "serial", "Device started, serial interface running.")
 	def read(self):
+		"""
+		Read a command from the serial device.
+		"""
 		try:
 			start_time = datetime.datetime.now()
 			data_in = self._serial.read(255)
@@ -41,6 +50,9 @@ class Serial:
 			log(Log.Error, "serial", "FATAL: Unknown error occured on serial read.")
 			fatalError("Error on serial read")
 	def write(self, data):
+		"""
+		Send a command to the serial device.
+		"""
 		try:
 			bytesWritten = self._serial.write(data)
 			log(Log.Info, "serial", "Successfully wrote %s to serial interface." % data)
@@ -49,9 +61,15 @@ class Serial:
 			log(Log.Error, "serial", "FATAL: Unknown error writing %s")
 			fatalError("Error on serial write")
 	def vend(self, tray):
+		"""
+		Request that the machine vend the specified tray.
+		"""
 		self.write("%s%d" % (getConfig("serial_command_vend"), tray))
 
 class _SerialHandler(threading.Thread):
+	"""
+	Serial device handling thread.
+	"""
 	def __init__(self, parent):
 		threading.Thread.__init__(self)
 		self.isRunning = False

@@ -8,6 +8,9 @@ import mimetypes, difflib
 mimetypes.init()
 
 def _Template(path):
+	"""
+	PML template handler.
+	"""
 	pml = PML()
 	pml.config["templates_folder"] = "www"
 	pml.set("globals", globals())
@@ -15,6 +18,9 @@ def _Template(path):
 	return pml.get_output(path)
 
 class _GetHandler(BaseHTTPRequestHandler):
+	"""
+	Handle web requests.
+	"""
 	def __init__(self, a, b, c):
 		log(Log.Info, "web-handler", "Incoming connection.")
 		BaseHTTPRequestHandler.__init__(self, a, b, c)
@@ -164,10 +170,13 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
 	pass
 
 class Server:
+	"""
+	Web server interface.
+	"""
 	def __init__(self):
-		self.server = ThreadedHTTPServer((getConfig("web_server"),getConfig("web_port")), _GetHandler)
+		self.server = ThreadedHTTPServer((getConfig("web_server"),getConfig("web_port")), _GetHandler) #: Backend BaseHTTPServer
 		self.server.timeout = 1
-		self.thread = None
+		self.thread = None	#: Processing thread
 		log(Log.Info,"web","Web server is ready.")
 	def start(self):
 		self.isRunning = True
