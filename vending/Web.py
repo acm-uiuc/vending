@@ -121,10 +121,12 @@ class _GetHandler(BaseHTTPRequestHandler):
 			try:
 				htmlfile = _Template(path + ".html")
 				self.send_response(200)
-			except:
-				fio = open("www/500_error.html","r")
-				htmlfile = fio.read()
-				fio.close()
+			except Exception, inst:
+				Environment.tool.web.exception = inst
+				#ifio = open("www/500_error.html","r")
+				#htmlfile = fio.read()
+				#fio.close()
+				htmlfile = _Template("500_error.html")
 				self.send_response(500)
 			self.send_header("Content-type","text/html")
 			self.end_headers()
@@ -184,6 +186,7 @@ class Server:
 	def __init__(self):
 		self.server = ThreadedHTTPServer((getConfig("web_server"),getConfig("web_port")), _GetHandler) #: Backend BaseHTTPServer
 		self.server.timeout = 1
+		self.exception = None #: Exception for 500 error
 		self.thread = None	#: Processing thread
 		log(Log.Info,"web","Web server is ready.")
 	def start(self):
