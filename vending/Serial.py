@@ -49,7 +49,7 @@ class Serial:
 			log(Log.Error, "serial", "FATAL: Unknown error writing %s")
 			fatalError("Error on serial write")
 	def vend(self, tray):
-		self.write("V%d" % tray)
+		self.write("%s%d" % (getConfig("serial_command_vend"), tray))
 
 class _SerialHandler(threading.Thread):
 	def __init__(self, parent):
