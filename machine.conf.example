@@ -1,0 +1,41 @@
+# Example ACM Vending Configuration
+# Lines like this are comments
+# The syntax for this file is:
+# 	option: value
+# Where `value` is in Python syntax.
+#
+# NOTICE: Many of these do not have "defaults" and,
+#         if missing, will produce an error.
+#         Make sure you set everything!
+#
+# Set the log value, see vending/Vending.pl for settings on this
+log_print_level: Log.Info
+# Use colors in the log printed to standard out.
+color_log: True
+# Database configurations
+db_mysql_user_server: "db1.acm.uiuc.edu"
+db_mysql_vend_server: "db1.acm.uiuc.edu"
+db_mysql_user_user: "soda"
+db_mysql_vend_user: "soda"
+db_mysql_user_password: "** YOUR PASSWORD HERE**"
+db_mysql_vend_password: "** YOUR PASSWORD HERE**"
+db_mysql_user_db: "user_database"
+db_mysql_vend_db: "soda_database"
+# The serial baudrate, ours is 115200
+serial_baudrate: 115200
+# The time to wait on the serial
+serial_line_timeout: 0.1
+# Incoming data configuration
+serial_data_card_prefix: "C"
+serial_data_button_prefix: "D"
+serial_data_button_up_prefix: "U"
+serial_data_acknowledge_prefix: "A"
+# Outgoing data configuration
+serial_command_vend: "V"
+# Web configuration
+# Note that 6969 is a registered TCP port as `acmsoda`, cool 'eh?
+web_port: 6969
+web_server: "0.0.0.0"
+# Number of trays we have. These are 0-index 'cause it's geeky,
+# so we have trays 0-8
+tray_count: 9
