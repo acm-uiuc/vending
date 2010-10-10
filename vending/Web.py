@@ -9,6 +9,7 @@ mimetypes.init()
 
 def _Template(path):
 	pml = PML()
+	pml.config["templates_folder"] = "www"
 	pml.set("globals", globals())
 	pml.set("locals", locals())
 	return pml.get_output(path)
