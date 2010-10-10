@@ -299,7 +299,7 @@ class Vending:
 			if button_id == Environment.last_button:
 				this_tray = Environment.trays[button_id]
 				log(Log.Info, "button-press", "Confirming selection. Vending!")
-				self.db.chargeUser(this_tray.price)
+				self.db.purchaseItem(this_tray)
 				self.db.vend(button_id)
 				Environment.waiting_for = AckEvents.Vend
 				Environment.state = State.Acknowledge
