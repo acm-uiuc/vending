@@ -1,46 +1,14 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<link href="/caffeine.css" rel="stylesheet" type="text/css"/>
-	</head>
-	<body>
-		<div id='shadow'>
-			<div id='banner'>Caffeine@ACM</div>
-			<div id='middle-header'>User Information</div>
-			<div class='middle-content'>
-				<div class="left-content">
-					<table width="100%">
-						<?
-						i=0
-						for drink in pml.get('globals')['Environment'].tool.db.getItems():
-						?>
-						<? if drink.quantity == 0: ?>
-						<tr class='tray_empty'><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'>Empty <span style='font-size: 16px;'>(was <? print drink.title ?>)</span></td></tr>
-						<tr class='tray_empty'><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td></tr>
-						<?
-						#if
-						else:
-						?>
-						<tr><td rowspan='2' class='header'><? print i ?></td><td rowspan='2'></td><td colspan='2'><? print drink.title ?></td></tr>
-						<tr><td><? print drink.quantity ?></td><td>$<? print "%.2f" % drink.price ?></td></tr>
-						<? #else ?>
-						<?
-						i +=1
-						#for
-						?>
-					</table>
-				</div>
-				<div class="right-content">
-					<div class='middle-text'>
-						<? user = pml.get('globals')['Environment'].user ?>
-						<span style="font-size: 36px;"><? print user.extra['first_name'] ?> <? print user.extra['last_name'] ?></span><br />
-						<b>Balance:</b> <? print "$%.2f" % user.extra['balance'] ?><br />
-					</div>
-				</div>
-				<div style='clear: both;'></div>
-			</div>
-			<div id='copyright'>&copy; 2010 <a class="copyright" href="http://acm.uiuc.edu/lug">Linux Users Group</a> @ UIUC</div>
+<? include 'gui/include/header.html' ?>
+<div id='middle-header'>User Information</div>
+<div class='middle-content'>
+	<? include 'gui/include/tray_list.html' ?>
+	<div class="right-content">
+		<div class='middle-text'>
+			<? user = pml.get('globals')['Environment'].user ?>
+			<span style="font-size: 36px;"><? print user.extra['first_name'] ?> <? print user.extra['last_name'] ?></span><br />
+			<b>Balance:</b> <? print "$%.2f" % user.extra['balance'] ?><br />
 		</div>
-	</body>
-</html>
+	</div>
+	<div style='clear: both;'></div>
+</div>
+<? include 'gui/include/footer.html' ?>
