@@ -17,11 +17,17 @@
 		<tr class='<? print t_class ?>'>
 			<td rowspan='2' class='header'><? print drink.tray ?></td>
 			<td rowspan='2' width="80"><center><img src="/assets/drinks/<? print drink.extra['sid'] ?>.png" height="75"/></center></td>
-			<td colspan='2'><? print drink._title ?></td>
+			<td colspan='3'><? print drink._title ?></td>
 		</tr>
 		<tr class='<? print t_class ?>'>
 			<td><? print drink.quantity ?></td>
 			<td>$<? print "%.2f" % drink.price ?></td>
+			<td>
+				<div style="font-size: 14px; font-weight: bold;">
+					<? print drink.extra['calories'] ?> calories<br>
+					<? print drink.extra['caffeine'] ?> caffeine<br>
+				</div>
+			</td>
 		</tr>
 		<?
 		#for
