@@ -91,6 +91,14 @@ class _GetHandler(BaseHTTPRequestHandler):
 		if not path.find("..") == -1:
 			self.send_response(403)
 			return
+		query = ""
+		if not path.find("?") == -1:
+			(path, query) = path.split("?", 1)
+			if not query.find("&") == -1:
+				query = query.split("&")
+			else:
+				query = [query]
+			log(Log.Info, "web", "Request includes query %s" % str(query))
 		if not path.find(".") == -1:
 			try:
 				fio = open("www/%s" % path,"r")
