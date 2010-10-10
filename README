@@ -83,3 +83,19 @@ The format for the config file is:
 
 ... where `value` is in Python syntax. Note that this value is `eval`d, so
 always make sure that your configuration is "safe".
+
+## API ##
+
+The ACM Vending API seeks to provide a concise, but expandable, library for
+communicating with vending machines. The layout of the default library modules
+looks like this:
+
+	vending/
+		Db.py			Database library (only MySQLBackend as of now)
+		Gui.py			GUI library (only Qt with a web frontend)
+		Serial.py		Serial interface (runs on a separate thread)
+		Vending.py		The base class and logging
+		Web.py			Web server (for GUI, web frontend, and initial telnet)
+
+You are free to edit these library modules as much as you want, but we recommend
+that you extend them as your own set of classes instead.
