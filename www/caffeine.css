@@ -85,7 +85,7 @@ width:		1270px;
 	width:		1270px;
 }
 
-
+.tray_normal { }
 .tray_empty {	color:		#700;}
 .tray_critical {	color:		#F44;}
 .tray_low {	color:		#FC0;}
