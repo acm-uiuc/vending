@@ -222,7 +222,12 @@ class Vending:
 			# Ready -> Card Reads
 			if data.startswith(getConfig("serial_data_card_prefix")):
 				log(Log.Verbose, "api-serial", "^ Card swipe.")
-				self.handleCardSwipe(data.replace(getConfig("serial_data_card_prefix"),""))
+				if not self.handleCardSwipe(data.replace(getConfig("serial_data_card_prefix"),"")):
+					self.gui.showCardError()
+			elif data.startswith(getConfig("serial_data_card_error_prefix")):
+				log(Log.Verbose, "api-serial", "^ Bad card swipe.")
+				log(Log.Error, "card-swipe", "Bad card: Serial returned card failure.")
+				self.gui.showCardError()
 		elif Environment.state == State.Authenticated or Environment.state == State.Confirm:
 			# Authenticated -> Button Presses
 			if data.startswith(getConfig("serial_data_button_prefix")):
