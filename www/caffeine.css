@@ -52,10 +52,15 @@ width:		1270px;
 
 .middle-content {
 	width:		1270px;
+	display: table;
+	height: 800px;
+	overflow: hidden;
 }
 
 .middle-text {
 	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .middle-text img {
@@ -67,12 +72,16 @@ width:		1270px;
 }
 
 .right-content {
+	display: table;
 	width: 838px;
+	height: 800px;
 	float: left;
 }
 
 .left-content {
+	display: table;
 	width: 432px;
+	height: 800px;
 	float: left;
 }
 
