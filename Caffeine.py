@@ -19,8 +19,26 @@ class Caffeine(Vending.Vending):
 		else:
 			args = command.split(" ")
 			if args[0] == "user":
-				wfile.write("Authenticating user with UIN %s\n" % args[1])
-				self.db.authenticateUser(args[1])
+				if Vending.Environment.state == Vending.State.Ready:
+					wfile.write("Authenticating user with UIN %s\n" % args[1])
+					self.db.authenticateUser(args[1])
+				else:
+					wfile.write("Can not authorize now, wait until system is 'Ready'.\n")
+				return True
+			elif args[0] == "request":
+				if len(args) < 2:
+					wfile.write("No tray specified.\n")
+				else:
+					if Vending.Environment.state == Vending.State.Authenticated:
+						self.handleButtonPress(args[1])
+					else:
+						wfile.write("No user authenticated, log in first.\n")
+				return True
+			elif args[0] == "confirm":
+				if Vending.Environment.state == Vending.State.Confirm:
+					self.handleButtonPress(str(Vending.Environment.last_button))
+				else:
+					wfile.write("Can not confirm, no request made.\n")
 				return True
 			elif args[0] == "setpage":
 				wfile.write("Setting GUI page to `%s.html`\n" % args[1])
