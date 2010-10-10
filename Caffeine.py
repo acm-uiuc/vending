@@ -1,13 +1,6 @@
 #!/usr/bin/env python
 """
 	The Caffeine Interface (Alpha)
-
-	Powered by ACM Vending
-	Uses:
-	- MySQL for Database Backend
-	- A theme based on the original PHP web interface
-	- GUI is designed for a large screen
-	
 """
 
 from vending import Db, Gui, Serial, Web, Vending
