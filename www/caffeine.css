@@ -1,110 +1,112 @@
 html {
-	height:		100%;
+	height:			100%;
 }
+
 body	{
-	/*background:	url(background2.gif) repeat top center;*/
-	background:	url(/assets/bg.png) repeat top center;
+	background:		url(/assets/bg.png) repeat top center;
 	font-family:	Arial, Verdana;
-	font-size:	11pt;
-	margin:		0;
-	height:		100%;
+	font-size:		11pt;
+	margin:			0;
+	height:			100%;
 }
+
 a.copyright {
-	color:#00FF00;
-	border-bottom:1px dashed #999999;
+	color:			#00FF00;
+	border-bottom:	1px dashed #999999;
 	text-decoration:none;
 }
+
 a.copyright:hover {
-	color:#AAAAAA;
-	border:none;
+	color:			#AAAAAA;
+	border:			none;
 }
+
 #shadow {
-	/*bbackground:	#666 url(shadow_background.gif) repeat-y top */
-left;
-	margin:		0 auto;
-	/*padding:		0 22px 10px 22px;*/
-	/*width:		601px;*/
+	margin:			0 auto;
 }
 
-	#banner {
-		height:		100px;
-		width:		1270px;
-		vertical-align:	middle;
+#banner {
+height:		100px;
+width:		1270px;
+vertical-align:	middle;
 
-		font-size:	60pt;
-		font-style:	italic;
+font-size:	60pt;
+font-style:	italic;
 
-	}
-	#middle {
-		background:	#666666;
-		text-align:	left;
-		width:		1270px;
-	}
-		#nav {
-			background:	url(acm_uiuc_edu.gif) no-repeat top right;
-		}
-			#nav img {
-				border:		0;
-				margin:		2px 11px 5px 3px;
-			}
-		#middle-header {
-			/*background:	url(grey_striped_background.gif);*/
-			border:		solid 1px #000;
-			/*color:		#9F0;*/
-			height:		32px;
-			/*margin-left:	10px;*/
-			/*width:		578px;*/
-			width:		1270px;
-			font-weight:	bold;
-			font-size:	28px;
-			text-align: center;
-		}
-		.middle-content {
-			width:		1270px;
-    }
-			.middle-text {
-				text-align: center;
-			}
-			.middle-text img {
-				display: inline;
-			}
-			.middle-text table {
-				display: inline;
-			}
-      .right-content {
-        width: 838px;
-        float: left;
-      }
-			.left-content {
-				width: 432px;
-				float: left;
-			}
-		#copyright {
-			bottom:		5px;
-			font-size:	10pt;
-			left:		0;
-			position:		absolute;
-			text-align:	left;
-			width:		1270px;
-		}
-		#copyright a {
-			/*color:		#CCC;*/
-		}
+}
+
+#middle {
+background:	#666666;
+text-align:	left;
+width:		1270px;
+}
+
+#nav {
+	background:	url(acm_uiuc_edu.gif) no-repeat top right;
+}
+
+#nav img {
+	border:		0;
+	margin:		2px 11px 5px 3px;
+}
+
+#middle-header {
+	/*background:	url(grey_striped_background.gif);*/
+	border:		solid 1px #000;
+	/*color:		#9F0;*/
+	height:		32px;
+	/*margin-left:	10px;*/
+	/*width:		578px;*/
+	width:		1270px;
+	font-weight:	bold;
+	font-size:	28px;
+	text-align: center;
+}
+
+.middle-content {
+	width:		1270px;
+}
+
+.middle-text {
+	text-align: center;
+}
+
+.middle-text img {
+	display: inline;
+}
+
+.middle-text table {
+	display: inline;
+}
+
+.right-content {
+	width: 838px;
+	float: left;
+}
+
+.left-content {
+	width: 432px;
+	float: left;
+}
+
+#copyright {
+	bottom:		5px;
+	font-size:	10pt;
+	left:		0;
+	position:		absolute;
+	text-align:	left;
+	width:		1270px;
+}
 
 
-/*tray_empty {	color:		#D00;}
+.tray_empty {	color:		#D00;}
 .tray_critical {	color:		#F44;}
 .tray_low {	color:		#FC0;}
-.tray_disabled {	color:		#F00;}*/
+.tray_disabled {	color:		#F00;}
 
-table {
-	/*margin:		auto;*/
-}
 table tr td {
 	border:		solid 1px #AAA;
 	font-size:	28px;
-	/*background-color:	#666;*/
-	/*padding:		3px;*/
 }
 
 table tr.header td, table tr td.header {
@@ -112,36 +114,41 @@ table tr.header td, table tr td.header {
 	background-color:	transparent;
 	text-align:	center;
 	font-weight:	bold;
-	/*color:		#9F0;*/
-
 }
 
 .c {
 	text-align:	center;
 }
+
 .r {
 	text-align:	right;
 }
+
 h3 a {
 	color:		#CCC;
 	text-decoration:	none;
 }
+
 .hidden {
 	display:		none;
 }
+
 ul.stats li {
 	float:		left;
 	margin:		0;
 	padding:		0;
 }
+
 ul.stats {
 	margin:		0;
 	padding:		0;
 	list-style-type:	none;
 }
+
 h3.selected a {
 	color:		#FFF;
 }
+
 h3 { display: inline }
 
 h2, h3 { margin: 0}
