@@ -12,6 +12,9 @@ import sys, datetime, signal, time
 """
 
 def handleSignal(signum, frame):
+	"""
+	Generic signal handler; Handles SIGINT to shutdown Vending.
+	"""
 	if signum == signal.SIGINT:
 		log(Log.Notice, "api", "Interrupt received, shutting down.")
 		try:
@@ -56,15 +59,18 @@ def log(log_type, module_name, log_message):
 	Environment.log_file.write("%s [%s] %s: %s\n" % (datetime.datetime.now().isoformat(' '), _logNames[log_type], module_name, log_message))
 	Environment.log_file.flush()
 
-_logNames	= ["Error",		"Warn",			"Notice",		"Info",			"Verbose"]
-_logColors	= ["\033[1;31m","\033[1;33m",	"\033[1;34m",	"\033[1;30m",	""]
+_logNames	= ["Error",		"Warn",			"Notice",		"Info",			"Verbose"]		#: Log types, printed names.
+_logColors	= ["\033[1;31m","\033[1;33m",	"\033[1;34m",	"\033[1;30m",	""]				#: Log type colors (for color_log)
 
 class Log:
-	Error	= 0
-	Warn	= 1
-	Notice	= 2
-	Info	= 3
-	Verbose	= 4
+	"""
+	Log types.
+	"""
+	Error	= 0	#: An error, this is bad.
+	Warn	= 1	#: A warning, this might be bad, you should look at it.
+	Notice	= 2	#: A notice, something worth looking at, definitely not bad.
+	Info	= 3	#: Regular logged output.
+	Verbose	= 4	#: Excessive logged output, might be outputted a lot. Meaningless.
 
 def fatalError(message):
 	"""
@@ -80,24 +86,26 @@ def fatalError(message):
 """
 
 class State:
-	Initializing	= 0
-	Ready			= 1
-	Authenticated	= 2
-	Confirm			= 3
-	Acknowledge		= 4
-	Vending			= 5
-	Idaho			= 6
-	New_York		= 7
-	OfMind			= 8
-
+	"""
+	Machine states.
+	"""
+	Initializing	= 0	#: Machine is not ready for anything, it is still starting up.
+	Ready			= 1	#: Machine is ready for user authentication.
+	Authenticated	= 2	#: A user has been authenticated.
+	Confirm			= 3	#: Waiting for the user to confirm their selection.
+	Acknowledge		= 4	#: Waiting an an ACK from the machine.
+	Vending			= 5	#: Vending the selected beverage.
 
 """
 	Configuration
 """
 
-config_options = {}
+config_options = {}		#: Configration database.
 
 def getConfig(config_option):
+	"""
+	Get a configuration value.
+	"""
 	if config_options.has_key(config_option):
 		return config_options[config_option]
 	else:
@@ -128,33 +136,45 @@ def _readConfig():
 		log(Log.Warn, "api-main", "Could not read config file (machine.conf), this may be bad.")
 
 class Environment:
-	tool = 0
-	state = State.Initializing
-	user = None
-	trays = []
-	waiting_for = -1
-	last_button = -1
-	log_file = None
+	"""
+	The current vending environment.
+	"""
+	tool = 0					#: Vending object
+	state = State.Initializing	#: Current state
+	user = None					#: Currently authenticated user
+	trays = []					#: List of tray contents
+	waiting_for = -1			#: If in State.Acknowledge, what we're waiting for
+	last_button = -1			#: The last button pressed, or -1 if none
+	log_file = None				#: The log file we are writing to
 
 class AckEvents:
-	Vend = 0
+	"""
+	Events that State.Acknowledge may be waiting for.
+	"""
+	Vend = 0		#: Vend acknowledgement
 
 class VendingUser:
+	"""
+	Wrapper around database information for a user.
+	"""
 	def __init__(self, uid, uin, extra):
-		self.uin = uin
-		self.uid = uid
-		self.extra = extra
+		self.uin = uin			#: External user identifier, as in Illinois' UIN
+		self.uid = uid			#: Internal user identifier, from the database
+		self.extra = extra		#: Extra information on the user, like their balance
 		log(Log.Info,"api-user","Authenticated user %s %s with balance $%.2f" % (self.extra['first_name'], self.extra['last_name'], self.extra['balance']))
 	def canAfford(self, item):
 		return self.extra['balance'] >= item.price
 
 class VendingItem:
+	"""
+	Wrapper around database information for a vendable item.
+	"""
 	def __init__(self, title, tray, quantity, price, extra):
-		self.title = title
-		self.tray = tray
-		self.quantity = quantity
-		self.price = price
-		self.extra = extra
+		self.title = title			#: Name of the item
+		self.tray = tray			#: Tray number that the item is in
+		self.quantity = quantity	#: Number of the item left in the tray
+		self.price = price			#: Price of the item (ie, in US Dollars, theme-dependent)
+		self.extra = extra			#: Extra information on the item, like its calories
 
 """
 	Main Object
@@ -165,9 +185,16 @@ class Vending:
 		Vending API super class
 	"""
 	def __init__(self):
+		self.db		= None	#: Database interface
+		self.gui	= None	#: GUI handler
+		self.serial	= None	#: Serial interface
+		self.web	= None	#: Web server
 		log(Log.Warn, "api-main", "Starting up...")
 		_readConfig()
 	def start(self):
+		"""
+		Start the interface.
+		"""
 		if self.serial is None:
 			log(Log.Error, "api-main", "No Serial module loaded. This is fatal.")
 			fatalError("No Serial module")
@@ -187,6 +214,10 @@ class Vending:
 		self.db.getItems()
 		self.gui.start() # GUI should take over from here.
 	def handleSerialData(self, data):
+		"""
+		Serial data handler, extend this by calling it before or after.
+		This one provides card reads, buttons, and acknowledge.
+		"""
 		if Environment.state == State.Ready:
 			# Ready -> Card Reads
 			if data.startswith(getConfig("serial_data_card_prefix")):
@@ -203,6 +234,9 @@ class Vending:
 				Environment.state = State.Ready
 				self.gui.showMain()
 	def handleCardSwipe(self, card):
+		"""
+		Read a card swipe.
+		"""
 		if not card.startswith(";"):
 			log(Log.Error,"card-swipe", "Bad card: Missing ;")
 			return False
@@ -215,11 +249,17 @@ class Vending:
 		card_uin = card[5:14] # UIN
 		return self.db.authenticateUser(card_uin)
 	def cancelTransaction(self):
+		"""
+		Cancel the current transaction.
+		"""
 		Environment.user = None
 		Environment.tray = None
 		Environment.state = State.Ready
 		self.gui.showCancel()
 	def handleButtonPress(self, data):
+		"""
+		Handle a button press.
+		"""
 		if len(data) < 1:
 			log(Log.Error, "button-press", "oh... crap (button press data is only one character")
 			return False
@@ -265,8 +305,15 @@ class Vending:
 				Environment.state = State.Authenticated
 				return self.handleButtonPress(data)
 	def telnetListCommands(self):
+		"""
+		List available terminal commands.
+		Returns a dict of command -> help text.
+		"""
 		return {"help": "Show this help text.", "status": "Display current system status."}
 	def telnetCommand(self, command, wfile, rfile):
+		"""
+		Process a telnet command.
+		"""
 		if len(command) < 1:
 			return True
 		log(Log.Info, "telnet", "Telnet command received: %s" % command)
@@ -303,12 +350,3 @@ class Vending:
 			wfile.write("Setting GUI page to `%s.html`\n" % args[1])
 			self.gui.setPage(args[1])
 			return True
-
-
-"""
-	Transaction Classes
-"""
-
-class User:
-	def __init__(self, uid):
-		self.uid = uid
