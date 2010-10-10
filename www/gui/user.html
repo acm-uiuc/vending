@@ -7,13 +7,13 @@
 			<? user = pml.get('globals')['Environment'].user ?>
 			<p>
 				<span style="font-size: 52px;"><? print user.extra['first_name'] ?> <? print user.extra['last_name'] ?></span><br>
-				<b>Balance:</b> <? print "$%.2f" % user.extra['balance'] ?><br>
+				<b>Balance:</b> <? print "$%.2f" % float(user.extra['balance']) ?><br>
 			</p>
 			<p>
 				<b>Consumption Information</b><br>
 				<b>Calories:</b> <? print user.extra['calories'] ?><br>
 				<b>Caffeine:</b> <? print user.extra['caffeine'] ?><br>
-				<b>Amount Spent:</b> <? print "$%.2f" % user.extra['spent'] ?><br>
+				<b>Amount Spent:</b> <? print "$%.2f" % float(user.extra['spent']) ?><br>
 				<b>Total Purchases:</b> <? print user.extra['sodas'] ?><br>
 			</p>
 		</div>
