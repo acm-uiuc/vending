@@ -3,3 +3,4 @@
 *.cpml
 *.pml
 debug.log
+machine.conf
