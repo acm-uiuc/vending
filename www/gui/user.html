@@ -3,10 +3,19 @@
 <div class='middle-content'>
 	<? include 'gui/include/tray_list.html' ?>
 	<div class="right-content">
-		<div class='middle-text'>
+		<div class='middle-text' style='font-size: 24px;'>
 			<? user = pml.get('globals')['Environment'].user ?>
-			<span style="font-size: 36px;"><? print user.extra['first_name'] ?> <? print user.extra['last_name'] ?></span><br />
-			<b>Balance:</b> <? print "$%.2f" % user.extra['balance'] ?><br />
+			<p>
+				<span style="font-size: 52px;"><? print user.extra['first_name'] ?> <? print user.extra['last_name'] ?></span><br>
+				<b>Balance:</b> <? print "$%.2f" % user.extra['balance'] ?><br>
+			</p>
+			<p>
+				<b>Consumption Information</b><br>
+				<b>Calories:</b> <? print user.extra['calories'] ?><br>
+				<b>Caffeine:</b> <? print user.extra['caffeine'] ?><br>
+				<b>Amount Spent:</b> <? print "$%.2f" % user.extra['spent'] ?><br>
+				<b>Total Purchases:</b> <? print user.extra['sodas'] ?><br>
+			</p>
 		</div>
 	</div>
 	<div style='clear: both;'></div>
