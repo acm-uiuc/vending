@@ -78,6 +78,13 @@ class MySQLBackend:
 			soda = s_result.fetch_row(how=1)[0]
 			Environment.trays.append(VendingItem(soda['name'], i, tray['qty'], tray['price'], soda))
 		return Environment.trays
+	def purchaseItem(self, item):
+		self.chargeUser(item.price)
+		u = Environment.user
+		self.user_database.query("UPDATE `vending` SET `calories`=%d, `caffeine`=%d, `spent`=%f, `sodas`=%d WHERE `uid`=%d" % \
+				(u.extra['calories'] + item.extra['calories'], u.extra['caffeine'] + item.extra['caffeine'], u.extra['spent'] + item.price, \
+				u.extra['sodas'] + 1, u.uid))
+		self.user_database.commit()
 	def chargeUser(self, amount):
 		"""
 		Charge the current user some amount of money.
