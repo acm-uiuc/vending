@@ -73,3 +73,8 @@ class GraphicalInterface:
 		Inform the user that this tray is empty.
 		"""
 		self.setPage("empty")
+	def showCardError(self):
+		"""
+		There was an error reading the card.
+		"""
+		self.setPage("card_error")
