@@ -52,10 +52,15 @@ width:		1270px;
 
 .middle-content {
 	width:		1270px;
+	display: table;
+	height: 800px;
+	overflow: hidden;
 }
 
 .middle-text {
 	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .middle-text img {
@@ -67,12 +72,16 @@ width:		1270px;
 }
 
 .right-content {
+	display: table;
 	width: 838px;
+	height: 800px;
 	float: left;
 }
 
 .left-content {
+	display: table;
 	width: 432px;
+	height: 800px;
 	float: left;
 }
 
@@ -85,7 +94,7 @@ width:		1270px;
 	width:		1270px;
 }
 
-
+.tray_normal { }
 .tray_empty {	color:		#700;}
 .tray_critical {	color:		#F44;}
 .tray_low {	color:		#FC0;}
@@ -93,12 +102,13 @@ width:		1270px;
 
 table tr td {
 	border:		solid 1px #AAA;
+	background-color: #BBBBBB;
 	font-size:	28px;
 }
 
 table tr.header td, table tr td.header {
+	background: transparent;
 	border:		0px;
-	background-color:	transparent;
 	text-align:	center;
 	font-weight:	bold;
 }
