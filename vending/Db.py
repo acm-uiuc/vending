@@ -85,6 +85,8 @@ class MySQLBackend:
 				(u.extra['calories'] + item.extra['calories'], u.extra['caffeine'] + item.extra['caffeine'], u.extra['spent'] + item.price, \
 				u.extra['sodas'] + 1, u.uid))
 		self.user_database.commit()
+		self.vend_database.query("UPDATE `sodas` SET `dispensed`=%d WHERE `sid`=%d" % (item.extra['dispensed'], item.extra['sid']))
+		self.vend_database.commit()
 	def chargeUser(self, amount):
 		"""
 		Charge the current user some amount of money.
