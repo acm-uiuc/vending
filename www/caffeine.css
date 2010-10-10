@@ -102,12 +102,13 @@ width:		1270px;
 
 table tr td {
 	border:		solid 1px #AAA;
+	background-color: #BBBBBB;
 	font-size:	28px;
 }
 
 table tr.header td, table tr td.header {
+	background: transparent;
 	border:		0px;
-	background-color:	transparent;
 	text-align:	center;
 	font-weight:	bold;
 }
