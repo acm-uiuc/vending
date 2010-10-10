@@ -346,12 +346,5 @@ class Vending:
 					color = "1;34"
 				wfile.write("%d: %s ($%.2f) \033[%sm%d remaining\033[0m\n" % (tray.tray, tray.title.ljust(20), tray.price, color, tray.quantity))
 			return True
-		# DEBUG COMMANDS XXX REMOVE THESE XXX
-		elif args[0] == "user":
-			wfile.write("Authenticating user with UIN %s\n" % args[1])
-			self.db.authenticateUser(args[1])
-			return True
-		elif args[0] == "setpage":
-			wfile.write("Setting GUI page to `%s.html`\n" % args[1])
-			self.gui.setPage(args[1])
-			return True
+		else:
+			return False
