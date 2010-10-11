@@ -151,6 +151,7 @@ class Environment:
 	waiting_for = -1			#: If in State.Acknowledge, what we're waiting for
 	last_button = -1			#: The last button pressed, or -1 if none
 	log_file = None				#: The log file we are writing to
+	version = "[unknown]"		#: System firmware version
 
 class AckEvents:
 	"""

@@ -27,6 +27,7 @@ class Serial:
 		Start the serial handler.
 		"""
 		self._handler.start()
+		log(Log.Notice, "serial", "Hardware reports version `%s`." % self.getDeviceVersion())
 		log(Log.Info, "serial", "Device started, serial interface running.")
 	def read(self):
 		"""
@@ -55,16 +56,31 @@ class Serial:
 		"""
 		try:
 			bytesWritten = self._serial.write(data)
-			log(Log.Info, "serial", "Successfully wrote %s to serial interface." % data.replace("\xa0","\\xa0"))
+			log(Log.Info, "serial", "Successfully wrote %s to serial interface." % data)
 			log(Log.Verbose, "serial", "Wrote %s out to serial." % bytesWritten)
 		except:
-			log(Log.Error, "serial", "FATAL: Unknown error writing %s")
+			log(Log.Error, "serial", "Unknown error writing %s, restarting to compensate!")
 			fatalError("Error on serial write")
 	def vend(self, tray):
 		"""
 		Request that the machine vend the specified tray.
 		"""
 		self.write("%s%d" % (getConfig("serial_command_vend"), tray))
+	def setSynchronous(self,synchronous=True):
+		if synchronous:
+			self._handler.isSuspended = False
+		else:
+			self._handler.isSuspended = True
+			time.sleep(0.1)
+	def readResponse(self, out):
+		self.setSynchronous(False)
+		self.write(out)
+		t = self.read()
+		self.setSynchronous(True)
+		return t
+	def getDeviceVersion(self):
+		Environment.version = self.readResponse(getConfig("serial_command_version")).replace(getConfig("serial_data_string_prefix"),"",1)
+		return Environment.version
 
 class _SerialReset(threading.Thread):
 	def __init__(self, parent):
@@ -75,7 +91,7 @@ class _SerialReset(threading.Thread):
 			time.sleep(60)
 			if Environment.state == State.Ready:
 				log(Log.Notice,"serial","Sending reset.")
-				self.parent.parent.write("\xa0")
+				self.parent.parent.write(getConfig("serial_command_reset"))
 
 class _SerialHandler(threading.Thread):
 	"""
@@ -85,6 +101,7 @@ class _SerialHandler(threading.Thread):
 		threading.Thread.__init__(self)
 		self.isRunning = False
 		self.parent = parent
+		self.isSuspended = False
 	def start(self):
 		self.isRunning = True
 		self.reset = _SerialReset(self)
@@ -92,6 +109,7 @@ class _SerialHandler(threading.Thread):
 		threading.Thread.start(self)
 	def run(self):
 		while self.isRunning:
-			incoming = self.parent.read()
-			if not incoming is None:
-				self.parent._internal.handleSerialData(incoming)
+			if not self.isSuspended:
+				incoming = self.parent.read()
+				if not incoming is None:
+					self.parent._internal.handleSerialData(incoming)

@@ -89,8 +89,16 @@ width:		1270px;
 	bottom:		5px;
 	font-size:	10pt;
 	left:		0;
-	position:		absolute;
+	position:	absolute;
 	text-align:	left;
+	width:		1270px;
+}
+#copyright_fw {
+	bottom:		5px;
+	font-size:	10pt;
+	right:		0px;
+	position:	absolute;
+	text-align:	right;
 	width:		1270px;
 }
 
