@@ -8,7 +8,7 @@ class Serial:
 	def __init__(self):
 		self._internal = Environment.tool
 		attempts = 0
-		devices = ["ttyUSB0", "ttyUSB1", "ttyS0", "ttyS1"]
+		devices = ["ttyUSB0", "ttyUSB1"] #, "ttyS0", "ttyS1"]
 		while attempts < 5 * len(devices):
 			for device in devices:
 				try:
@@ -66,6 +66,17 @@ class Serial:
 		"""
 		self.write("%s%d" % (getConfig("serial_command_vend"), tray))
 
+class _SerialReset(threading.Thread):
+	def __init__(self, parent):
+		threading.Thread.__init__(self)
+		self.parent = parent
+	def run(self):
+		while self.parent.isRunning:
+			time.sleep(10)
+			if Environment.state == State.Ready:
+				log(Log.Notice,"serial","Sending reset.")
+				self.parent.parent.write("\xa0")
+
 class _SerialHandler(threading.Thread):
 	"""
 	Serial device handling thread.
@@ -76,6 +87,8 @@ class _SerialHandler(threading.Thread):
 		self.parent = parent
 	def start(self):
 		self.isRunning = True
+		self.reset = _SerialReset(self)
+		self.reset.start()
 		threading.Thread.start(self)
 	def run(self):
 		while self.isRunning:
