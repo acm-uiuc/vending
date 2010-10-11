@@ -35,16 +35,16 @@ You can get PML [here](http://codingrecipes.com/pml-a-python-template-engine).
 As ACM Vending is an API, you will need to make an application out of it. A very
 simple default setup looks like this:
 
-		from vending import Db, Gui, Serial, Web, Vending
-		class Caffeine(Vending.Vending):
-		def start(self):
-			Vending.Environment.tool = self
-			self.serial = Serial.Serial()
-			self.db = Db.MySQLBackend()
-			self.web = Web.Server()
-			self.gui = Gui.GraphicalInterface()
-			Vending.Vending.start(self)
-		Caffeine().start()
+	from vending import Db, Gui, Serial, Web, Vending
+	class Caffeine(Vending.Vending):
+	def start(self):
+		Vending.Environment.tool = self
+		self.serial = Serial.Serial()
+		self.db = Db.MySQLBackend()
+		self.web = Web.Server()
+		self.gui = Gui.GraphicalInterface()
+		Vending.Vending.start(self)
+	Caffeine().start()
 
 ### Theme ###
 
