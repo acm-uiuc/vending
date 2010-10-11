@@ -31,7 +31,10 @@ serial_data_card_error_prefix: "E"
 serial_data_button_prefix: "D"
 serial_data_button_up_prefix: "U"
 serial_data_acknowledge_prefix: "A"
+serial_data_string_prefix: "s "
 # Outgoing data configuration
+serial_command_reset: "\xa0"
+serial_command_version: "v"
 serial_command_vend: "V"
 # Web configuration
 # Note that 6969 is a registered TCP port as `acmsoda`, cool 'eh?
