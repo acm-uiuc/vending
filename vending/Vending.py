@@ -5,7 +5,7 @@
 	and attaching them to the Internet.
 """
 
-import sys, datetime, signal, time
+import sys, datetime, signal, time, os
 
 """
 	Signal Handling
@@ -17,21 +17,26 @@ def handleSignal(signum, frame):
 	"""
 	if signum == signal.SIGINT:
 		log(Log.Notice, "api", "Interrupt received, shutting down.")
-		try:
-			Environment.tool.web.isRunning = False
-			Environment.tool.serial._handler.isRunning = False
-		except:
-			pass
+		attemptShutdown()
+		sys.exit(1)
+
+def attemptShutdown(join_serial=True):
+	try:
+		Environment.tool.web.isRunning = False
+		Environment.tool.serial._handler.isRunning = False
+	except:
+		pass
+	if join_serial:
 		try:
 			Environment.tool.serial._handler.join()
 		except:
 			pass
-		try:
-			Environment.tool.gui.app.quit()
-		except:
-			pass
-		log(Log.Notice, "api", "Shutdown complete.")
-		sys.exit(1)
+	try:
+		Environment.tool.gui.app.quit()
+	except:
+		pass
+	log(Log.Notice, "api", "Shutdown complete.")
+
 
 signal.signal(signal.SIGINT, handleSignal)
 
@@ -78,8 +83,8 @@ def fatalError(message):
 		Kill everything, log sufficiently, and inform the main class to restart.
 	"""
 	log(Log.Error, "api-main", "FATAL ERROR: %s -- Shutting down and restarting!" % message)
-	sys.exit(0)
-	# TODO: Shutdown, restart
+	attemptShutdown(False)
+	os.kill(os.getpid(),9) # Ensure we actually shut down
 
 """
 	State
