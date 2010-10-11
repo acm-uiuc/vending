@@ -40,13 +40,13 @@ class MySQLBackend:
 		try:
 			card_id = int(card_id)
 		except:
-			log(Log.Error,"db-auth", "Card id is not an integer.")
+			log(Log.Notice,"db-auth", "Card id is not an integer.")
 			return False
 		self.user_database.query("SELECT * FROM `users` WHERE uin=%d" % card_id)
 		t_result = self.user_database.store_result()
 		t_user = t_result.fetch_row(how=1)
 		if len(t_user) < 1:
-			log(Log.Error,"db-auth", "User not found in database: %d" % card_id)
+			log(Log.Notice,"db-auth", "User not found in database: %d" % card_id)
 			return False
 		user_sql = t_user[0]
 		user_dict = {}
@@ -54,7 +54,7 @@ class MySQLBackend:
 		t_result = self.user_database.store_result()
 		t_vending = t_result.fetch_row(how=1)
 		if len(t_vending) < 1:
-			log(Log.Error,"db-auth", "User was not found in vending db, this is bad.")
+			log(Log.Warn,"db-auth", "User was not found in vending db, this is bad.")
 			return False
 		vending_sql = t_vending[0]
 		user_dict = vending_sql

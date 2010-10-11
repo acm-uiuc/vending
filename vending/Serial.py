@@ -72,7 +72,7 @@ class _SerialReset(threading.Thread):
 		self.parent = parent
 	def run(self):
 		while self.parent.isRunning:
-			time.sleep(10)
+			time.sleep(60)
 			if Environment.state == State.Ready:
 				log(Log.Notice,"serial","Sending reset.")
 				self.parent.parent.write("\xa0")
