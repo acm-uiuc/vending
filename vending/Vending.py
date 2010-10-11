@@ -248,13 +248,13 @@ class Vending:
 		Read a card swipe.
 		"""
 		if not card.startswith(";"):
-			log(Log.Error,"card-swipe", "Bad card: Missing ;")
+			log(Log.Info,"card-swipe", "Bad card: Missing ;")
 			return False
 		if len(card) < 19:
-			log(Log.Error,"card-swipe", "Bad card: Not really long enough.")
+			log(Log.Info,"card-swipe", "Bad card: Not really long enough.")
 			return False
 		if not card[17] == "=":
-			log(Log.Error,"card-swipe", "Bad card: Missing =")
+			log(Log.Info,"card-swipe", "Bad card: Missing =")
 			return False
 		card_uin = card[5:14] # UIN
 		return self.db.authenticateUser(card_uin)
