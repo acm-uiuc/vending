@@ -55,7 +55,7 @@ class Serial:
 		"""
 		try:
 			bytesWritten = self._serial.write(data)
-			log(Log.Info, "serial", "Successfully wrote %s to serial interface." % data)
+			log(Log.Info, "serial", "Successfully wrote %s to serial interface." % data.replace("\xa0","\\xa0"))
 			log(Log.Verbose, "serial", "Wrote %s out to serial." % bytesWritten)
 		except:
 			log(Log.Error, "serial", "FATAL: Unknown error writing %s")
