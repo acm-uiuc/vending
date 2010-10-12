@@ -320,7 +320,8 @@ class Vending:
 		List available terminal commands.
 		Returns a dict of command -> help text.
 		"""
-		return {"help": "Show this help text.", "status": "Display current system status."}
+		return {"help": "Show this help text.", "status": "Display current system status.", \
+				"quit": "End your session and disconnect."}
 	def telnetCommand(self, command, wfile, rfile):
 		"""
 		Process a telnet command.
