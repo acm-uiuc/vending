@@ -101,13 +101,15 @@ class _GetHandler(BaseHTTPRequestHandler):
 			log(Log.Info, "web", "Request includes query %s" % str(query))
 		if not path.find(".") == -1:
 			try:
+				if path[0] == '/':
+					path = path.replace('/','',1)
 				fio = open("www/%s" % path,"r")
 				htmlfile = fio.read()
 				fio.close()
 				self.send_response(200)
-				self.send_header("Content-type", mimetypes.types_map[path[path.find("."):]])
+				self.send_header("Content-type", mimetypes.types_map[path[path.rfind("."):]])
 				self.end_headers()
-				log(Log.Info, "web", "Sent header %s" % mimetypes.types_map[path[path.find("."):]])
+				log(Log.Info, "web", "Sent header %s" % mimetypes.types_map[path[path.rfind("."):]])
 				self.wfile.write(htmlfile)
 			except:
 				fio = open("www/404_error.html","r")
