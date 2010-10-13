@@ -36,7 +36,7 @@ class GraphicalInterface:
 		"""
 		Actually set the page.
 		"""
-		self.web.load(QUrl("http://localhost:6969/gui/%s" % page))
+		self.web.page().mainFrame().evaluateJavascript("updatePage(%s)" % page)		
 		log(Log.Info, "gui", "Loaded page %s." % page)
 	def setPage(self, page):
 		"""
