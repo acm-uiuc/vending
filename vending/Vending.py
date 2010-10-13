@@ -238,7 +238,7 @@ class Vending:
 			# Authenticated -> Button Presses
 			if data.startswith(getConfig("serial_data_button_prefix")):
 				log(Log.Verbose, "api-serial", "^ Button press.")
-				if isDoublePress(data):
+				if self.isDoublePress(data):
 					log(Log.Verbose, "api-serial", "Double button press detected")
 					self.handleButtonPress(data.replace(getConfig("serial_data_button_prefix"),"",1))
 					data = data.slice(1)
@@ -248,7 +248,7 @@ class Vending:
 				log(Log.Info, "api-serial", "Acknowledged. Returning to Ready state.")
 				Environment.state = State.Ready
 				self.gui.showMain()
-	def isDoublePress(data):
+	def isDoublePress(self, data):
 		b = getConfig("serial_data_button_prefix")
 		rex = "%s\d%s" % (b, b)
 		return (re.match(rex, data) != None)
