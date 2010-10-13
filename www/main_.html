@@ -100,18 +100,11 @@
 				</div>
 			</div>
 			<div class="left">
-				<div class="block" id="<? print pml.get('query')[0] ?>">
-					LOL BUTTS
+				<? for query in pml.get('query'): ?>
+				<div class="block" id="<? print query ?>">
+					<? print query ?>
 				</div>
-				<div class="block" id="2">
-					LOL BUTTS AGAIN
-				</div>
-				<div class="block" id="3">
-					TWO DERPS THIS TIME
-				</div>
-				<div class="block" id="4">
-					TWO DERPS THIS TIME
-				</div>
+				<? #for ?>
 			</div>
 		</div>
 	</body>
