@@ -7,7 +7,7 @@ import mimetypes, difflib
 
 mimetypes.init()
 
-def _Template(path):
+def _Template(path, query=[]):
 	"""
 	PML template handler.
 	"""
@@ -15,6 +15,7 @@ def _Template(path):
 	pml.config["templates_folder"] = "www"
 	pml.set("globals", globals())
 	pml.set("locals", locals())
+	pml.set("query", query)
 	return pml.get_output(path)
 
 class _GetHandler(BaseHTTPRequestHandler):
@@ -91,7 +92,7 @@ class _GetHandler(BaseHTTPRequestHandler):
 		if not path.find("..") == -1:
 			self.send_response(403)
 			return
-		query = ""
+		query = []
 		if not path.find("?") == -1:
 			(path, query) = path.split("?", 1)
 			if not query.find("&") == -1:
@@ -121,7 +122,7 @@ class _GetHandler(BaseHTTPRequestHandler):
 				self.wfile.write(htmlfile)
 		else:
 			try:
-				htmlfile = _Template(path + ".html")
+				htmlfile = _Template(path + ".html", query)
 				self.send_response(200)
 			except Exception, inst:
 				Environment.tool.web.exception = inst
