@@ -5,7 +5,7 @@
 	and attaching them to the Internet.
 """
 
-import sys, datetime, signal, time, os
+import sys, datetime, signal, time, os, re
 
 """
 	Signal Handling
@@ -239,6 +239,7 @@ class Vending:
 			if data.startswith(getConfig("serial_data_button_prefix")):
 				log(Log.Verbose, "api-serial", "^ Button press.")
 				if isDoublePress(data):
+					log(Log.Verbose, "api-serial", "Double button press detected")
 					self.handleButtonPress(data.replace(getConfig("serial_data_button_prefix"),"",1))
 					data = data.slice(1)
 				self.handleButtonPress(data.replace(getConfig("serial_data_button_prefix"),"",1))
@@ -250,7 +251,7 @@ class Vending:
 	def isDoublePress(data):
 		b = getConfig("serial_data_button_prefix")
 		rex = "%s\d%s" % (b, b)
-		return (rex.match(data) > 1)
+		return (re.match(rex, data) != None)
 	def handleCardSwipe(self, card):
 		"""
 		Read a card swipe.
