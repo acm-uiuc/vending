@@ -12,11 +12,10 @@
 				var panel_width=$('.panel').css('left');
 				if(data_id==id) {
 					panel.animate({left: parseInt(panel.css('left'),0) == 0 ? +panel.outerWidth() : 0});
-					} else if(panel_width=='341px') {
-						// what?
-					} else {
-						panel.animate({left: parseInt(panel.css('left'),0) == 0 ? +panel.outerWidth() : 0});
-					}
+				} else if(panel_width=='341px') {
+					// what?
+				} else {
+					panel.animate({left: parseInt(panel.css('left'),0) == 0 ? +panel.outerWidth() : 0});
 				}
 				$('.data').html(id);
 				return false;
