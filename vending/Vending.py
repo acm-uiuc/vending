@@ -240,9 +240,12 @@ class Vending:
 				log(Log.Verbose, "api-serial", "^ Button press.")
 				if self.isDoublePress(data):
 					log(Log.Verbose, "api-serial", "Double button press detected")
-					self.handleButtonPress(data.replace(getConfig("serial_data_button_prefix"),"",1))
-					data = data.slice(1)
-				self.handleButtonPress(data.replace(getConfig("serial_data_button_prefix"),"",1))
+					d = getConfig("serial_data_button_prefix")
+					secondPressIndex = data.find(d,1)
+					firstPress = data[0:secondPressIndex]
+					data = data[secondPressIndex:]
+					self.handleButtonPress(firstPress.replace(d,""))
+				self.handleButtonPress(data.replace(getConfig("serial_data_button_prefix"),""))
 		elif Environment.state == State.Acknowledge:
 			if data.startswith(getConfig("serial_data_acknowledge_prefix")):
 				log(Log.Info, "api-serial", "Acknowledged. Returning to Ready state.")
@@ -250,7 +253,8 @@ class Vending:
 				self.gui.showMain()
 	def isDoublePress(self, data):
 		b = getConfig("serial_data_button_prefix")
-		rex = "%s\d%s" % (b, b)
+		u = getConfig("serial_data_button_up_prefix")
+		rex = "%s\d%s\d%s\d" % (b, u, b)
 		return (re.match(rex, data) != None)
 	def handleCardSwipe(self, card):
 		"""
