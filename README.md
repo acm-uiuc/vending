@@ -11,7 +11,7 @@ winning an unrelated prize (the added-at-the-last-minute "White Hat" award), the
 API was renamed to something more appropriate and pronounceable and some things
 were cleaned up to make it more accessible.
 
-http://acm.uiuc.edu/lug/vending/
+[http://acm.uiuc.edu/lug/vending/](http://acm.uiuc.edu/lug/vending/)
 
 ## Authors ##
 
@@ -20,7 +20,7 @@ ACM Vending was written by:
 + Kevin Lange <lange7@illinois.edu>
 + Sean Nicolay <nicolay2@illinois.edu>
 + Dylan Nugent <nugent5@illinois.edu>
-+ Robby <schiele1@illinois.edu>
++ Robby Schiele <schiele1@illinois.edu>
 
 ## Installation ##
 
