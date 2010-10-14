@@ -51,11 +51,16 @@ def log(log_type, module_name, log_message):
 	if log_type > Log.Verbose:
 		log(Log.Notice, "log", "Invalid log message type. Assuming `Info`.")
 		log_type = Log.Info
-	log_level = getConfig("log_print_level")
-	if log_level is None:
+	if config_options.has_key("log_print_level"):
+		log_level = getConfig("log_print_level")
+	else:
 		log_level = Log.Warn
+	if config_options.has_key("color_log"):
+		color_log = getConfig("color_log")
+	else:
+		color_log = False
 	if log_type <= log_level:
-		if getConfig("color_log"):
+		if color_log:
 			sys.stdout.write("[%s%s\033[0m] \033[1m%s\033[0m: %s\n" % (_logColors[log_type], _logNames[log_type], module_name, log_message))
 		else:
 			sys.stdout.write("[%s] %s: %s\n" % (_logNames[log_type], module_name, log_message))
@@ -114,6 +119,7 @@ def getConfig(config_option):
 	if config_options.has_key(config_option):
 		return config_options[config_option]
 	else:
+		log(Log.Warn,"api","Request for non-existent config option '%s'." % config_option)
 		return None
 
 def _readConfig():

@@ -42,7 +42,7 @@ class MySQLBackend:
 		except:
 			log(Log.Notice,"db-auth", "Card id is not an integer.")
 			return False
-		self.user_database.query("SELECT * FROM `users` WHERE uin=%d" % card_id)
+		self.user_database.query("SELECT * FROM `%s` WHERE uin=%d" % (getConfig("db_mysql_user_table"), card_id))
 		t_result = self.user_database.store_result()
 		t_user = t_result.fetch_row(how=1)
 		if len(t_user) < 1:
@@ -50,7 +50,7 @@ class MySQLBackend:
 			return False
 		user_sql = t_user[0]
 		user_dict = {}
-		self.user_database.query("SELECT * FROM `vending` WHERE uid=%d" % user_sql['uid'])
+		self.user_database.query("SELECT * FROM `%s` WHERE uid=%d" % (getConfig("db_mysql_user_table_alt"), user_sql['uid']))
 		t_result = self.user_database.store_result()
 		t_vending = t_result.fetch_row(how=1)
 		if len(t_vending) < 1:
@@ -69,40 +69,40 @@ class MySQLBackend:
 		Update and return the list of available items in each tray.
 		"""
 		Environment.trays = []
-		self.vend_database.query("SELECT * FROM `trays`")
+		self.vend_database.query("SELECT * FROM `%s`" % getConfig("db_mysql_vend_trays"))
 		t_result = self.vend_database.store_result()
 		for i in xrange(getConfig("tray_count")):
 			tray = t_result.fetch_row(how=1)[0]
-			self.vend_database.query("SELECT * FROM `sodas` WHERE sid=%d" % int(tray['sid']))
+			self.vend_database.query("SELECT * FROM `%s` WHERE sid=%d" % (getConfig("db_mysql_vend_items"), int(tray['sid'])))
 			s_result = self.vend_database.store_result()
 			soda = s_result.fetch_row(how=1)[0]
 			Environment.trays.append(VendingItem(soda['name'], i, tray['qty'], tray['price'], soda))
 		return Environment.trays
 	def purchaseItem(self, item):
-		self.chargeUser(item.price)
+		self.chargeUser(item.price, item.extra['sid'])
 		u = Environment.user
-		self.user_database.query("UPDATE `vending` SET `calories`=%d, `caffeine`=%f, `spent`=%f, `sodas`=%d WHERE `uid`=%d" % \
-				(u.extra['calories'] + item.extra['calories'], u.extra['caffeine'] + item.extra['caffeine'], u.extra['spent'] + item.price, \
+		self.user_database.query("UPDATE `%s` SET `calories`=%d, `caffeine`=%f, `spent`=%f, `sodas`=%d WHERE `uid`=%d" % \
+				(getConfig("db_mysql_user_table_alt"), u.extra['calories'] + item.extra['calories'], u.extra['caffeine'] + item.extra['caffeine'], u.extra['spent'] + item.price, \
 				u.extra['sodas'] + 1, u.uid))
 		self.user_database.commit()
-		self.vend_database.query("UPDATE `sodas` SET `dispensed`=%d WHERE `sid`=%d" % (item.extra['dispensed'], item.extra['sid']))
+		self.vend_database.query("UPDATE `%s` SET `dispensed`=%d WHERE `sid`=%d" % (getConfig("db_mysql_vend_items"),item.extra['dispensed'], item.extra['sid']))
 		self.vend_database.commit()
-	def chargeUser(self, amount):
+	def chargeUser(self, amount, item_id):
 		"""
 		Charge the current user some amount of money.
 		"""
 		log(Log.Info,"db-charge", "uid: %d, amount: %.2f" % (int(Environment.user.uid), amount))
-		self.user_database.query("INSERT INTO `vending_transactions` VALUES (NULL, NULL, %d, %.2f, -1)" % (int(Environment.user.uid), amount))
-		self.user_database.query("UPDATE `vending` SET `balance`=%.2f WHERE `uid`=%d" % (Environment.user.extra['balance'] - amount, int(Environment.user.uid)))
+		self.user_database.query("INSERT INTO `%s` VALUES (NULL, NULL, %d, %d, %.2f)" % (getConfig("db_mysql_user_table_transactions"), int(Environment.user.uid), item_id, amount))
+		self.user_database.query("UPDATE `%s` SET `balance`=%.2f WHERE `uid`=%d" % (getConfig("db_mysql_user_table_alt"), Environment.user.extra['balance'] - amount, int(Environment.user.uid)))
 		self.user_database.commit()
 		return True
 	def vend(self, tray):
 		"""
 		Update the databases' knowledge of the number of items in a tray.
 		"""
-		self.vend_database.query("select * from `trays` where `tid`=%d" % tray)
+		self.vend_database.query("select * from `%s` where `tid`=%d" % (getConfig("db_mysql_vend_trays"),tray))
 		dbtray = self.vend_database.store_result().fetch_row(how=1)[0]
-		self.vend_database.query("update `trays` set `qty`=%d where `tid`=%d" % (dbtray['qty'] - 1, tray))
+		self.vend_database.query("update `%s` set `qty`=%d where `tid`=%d" % (getConfig("db_mysql_vend_trays"), dbtray['qty'] - 1, tray))
 		self.vend_database.commit()
 		self.getItems()
 		return True
