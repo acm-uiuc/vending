@@ -389,3 +389,4 @@ class Vending:
 		Environment.user = VendingUser(-1,-1,{})
 		Environment.user.isAdmin = True
 		self.gui.showAdminCard()
+		return True
