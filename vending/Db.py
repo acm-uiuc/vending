@@ -104,6 +104,8 @@ class MySQLBackend:
 		"""
 		Update the databases' knowledge of the number of items in a tray.
 		"""
+		if Environment.user.isAdmin:
+			return True
 		self.vend_database.query("select * from `%s` where `tid`=%d" % (getConfig("db_mysql_vend_trays"),tray))
 		dbtray = self.vend_database.store_result().fetch_row(how=1)[0]
 		self.vend_database.query("update `%s` set `qty`=%d where `tid`=%d" % (getConfig("db_mysql_vend_trays"), dbtray['qty'] - 1, tray))
