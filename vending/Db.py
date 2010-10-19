@@ -81,6 +81,8 @@ class MySQLBackend:
 	def purchaseItem(self, item):
 		self.chargeUser(item.price, item.extra['sid'])
 		u = Environment.user
+		if u.isAdmin:
+			return True
 		self.user_database.query("UPDATE `%s` SET `calories`=%d, `caffeine`=%f, `spent`=%f, `sodas`=%d WHERE `uid`=%d" % \
 				(getConfig("db_mysql_user_table_alt"), u.extra['calories'] + item.extra['calories'], u.extra['caffeine'] + item.extra['caffeine'], u.extra['spent'] + item.price, \
 				u.extra['sodas'] + 1, u.uid))
@@ -91,6 +93,8 @@ class MySQLBackend:
 		"""
 		Charge the current user some amount of money.
 		"""
+		if Environment.user.isAdmin:
+			return True
 		log(Log.Info,"db-charge", "uid: %d, amount: %.2f" % (int(Environment.user.uid), amount))
 		self.user_database.query("INSERT INTO `%s` VALUES (NULL, NULL, %d, %d, %.2f)" % (getConfig("db_mysql_user_table_transactions"), int(Environment.user.uid), item_id, amount))
 		self.user_database.query("UPDATE `%s` SET `balance`=%.2f WHERE `uid`=%d" % (getConfig("db_mysql_user_table_alt"), Environment.user.extra['balance'] - amount, int(Environment.user.uid)))

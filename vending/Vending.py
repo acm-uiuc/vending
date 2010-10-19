@@ -173,8 +173,11 @@ class VendingUser:
 		self.uin = uin			#: External user identifier, as in Illinois' UIN
 		self.uid = uid			#: Internal user identifier, from the database
 		self.extra = extra		#: Extra information on the user, like their balance
+		self.isAdmin = False	#: user is admin account
 		log(Log.Info,"api-user","Authenticated user %s %s with balance $%.2f" % (self.extra['first_name'], self.extra['last_name'], self.extra['balance']))
 	def canAfford(self, item):
+		if self.isAdmin:
+			return True
 		return self.extra['balance'] >= item.price
 
 class VendingItem:
@@ -269,6 +272,9 @@ class Vending:
 		if not card.startswith(";"):
 			log(Log.Info,"card-swipe", "Bad card: Missing ;")
 			return False
+		if card.startswith(";%s" % getConfig("admin_card")):
+			log(Log.Notice,"card-swipe", "Administrator card detected")
+			return self.authenticateAdmin()
 		if len(card) < 19:
 			log(Log.Info,"card-swipe", "Bad card: Not really long enough.")
 			return False
@@ -373,3 +379,9 @@ class Vending:
 			return True
 		else:
 			return False
+	def authenticateAdmin(self):
+		# Authenticate the admin user.
+		Environment.state = State.Authenticated
+		Environment.user = VendingUser(-1,-1,{})
+		Environment.user.isAdmin = True
+		self.gui.showAdminCard()
