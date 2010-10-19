@@ -275,9 +275,10 @@ class Vending:
 		if not card.startswith(";"):
 			log(Log.Info,"card-swipe", "Bad card: Missing ;")
 			return False
-		if card.startswith(";%s" % getConfig("admin_card")):
-			log(Log.Notice,"card-swipe", "Administrator card detected")
-			return self.authenticateAdmin()
+		for admin_card in getConfig("admin_card"):
+			if card.startswith(";%s" % admin_card):
+				log(Log.Notice,"card-swipe", "Administrator card detected")
+				return self.authenticateAdmin()
 		if len(card) < 19:
 			log(Log.Info,"card-swipe", "Bad card: Not really long enough.")
 			return False
