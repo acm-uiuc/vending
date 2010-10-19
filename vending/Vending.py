@@ -174,7 +174,10 @@ class VendingUser:
 		self.uid = uid			#: Internal user identifier, from the database
 		self.extra = extra		#: Extra information on the user, like their balance
 		self.isAdmin = False	#: user is admin account
-		log(Log.Info,"api-user","Authenticated user %s %s with balance $%.2f" % (self.extra['first_name'], self.extra['last_name'], self.extra['balance']))
+		try:
+			log(Log.Info,"api-user","Authenticated user %s %s with balance $%.2f" % (self.extra['first_name'], self.extra['last_name'], self.extra['balance']))
+		except:
+			log(Log.Info,"api-user","Authenticated user with invalid `extra` field")
 	def canAfford(self, item):
 		if self.isAdmin:
 			return True
