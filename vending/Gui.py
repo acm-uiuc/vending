@@ -78,3 +78,5 @@ class GraphicalInterface:
 		There was an error reading the card.
 		"""
 		self.setPage("card_error")
+	def showAdminCard(self):
+		self.setPage("admin_card")

@@ -49,3 +49,4 @@ web_server: "0.0.0.0"
 # Number of trays we have. These are 0-index 'cause it's geeky,
 # so we have trays 0-8
 tray_count: 9
+admin_card: "0123456789012345"
