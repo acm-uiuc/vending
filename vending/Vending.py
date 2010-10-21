@@ -318,7 +318,7 @@ class Vending:
 			# This is a button press from this user. Check the trays.
 			log(Log.Info, "button-press", "Button %d pressed in Authenticated mode. Confirmation requested." % button_id)
 			this_tray = Environment.trays[button_id]
-			if Environment.trays[button_id].quantity < 1:
+			if Environment.trays[button_id].quantity < 1 and not Environment.user.isAdmin:
 				self.gui.showEmpty()
 				return False
 			if Environment.user.canAfford(this_tray):
