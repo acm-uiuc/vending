@@ -77,7 +77,7 @@ class Serial:
 		self.write(out)
 		t = self.read()
 		self.setSynchronous(True)
-		return t
+		return str(t)
 	def getDeviceVersion(self):
 		Environment.version = self.readResponse(getConfig("serial_command_version")).replace(getConfig("serial_data_string_prefix"),"",1)
 		return Environment.version
