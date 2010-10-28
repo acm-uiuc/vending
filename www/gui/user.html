@@ -16,11 +16,11 @@
 				<b>Amount Spent:</b> <? print "$%.2f" % float(user.extra['spent']) ?><br>
 				<b>Total Purchases:</b> <? print user.extra['sodas'] ?><br>
 			</p>
-			<p>
-			<b>Last Purchases:</b><br>
+			<p style="margin-top: 5em;">
+			<b>Recent Purchases:</b><br><br>
 			<? i = 0
 			for item in pml.get('globals')['Environment'].tool.db.lastNPurchases(user, 5): ?>
-			<? print item ?> <br>
+			<img src="/assets/drinks/<? print int(item['sid']) ?>.png" height="120">
 			<? i += 1 ?>
 			<? #for ?>
 			</p>

@@ -41,13 +41,13 @@ class MySQLBackend:
 			card_id = int(card_id)
 		except:
 			log(Log.Notice,"db-auth", "Card id is not an integer.")
-			return False
+			return "Failed to read card."
 		self.user_database.query("SELECT * FROM `%s` WHERE uin=%d" % (getConfig("db_mysql_user_table"), card_id))
 		t_result = self.user_database.store_result()
 		t_user = t_result.fetch_row(how=1)
 		if len(t_user) < 1:
 			log(Log.Notice,"db-auth", "User not found in database: %d" % card_id)
-			return False
+			return "You are not an ACM member."
 		user_sql = t_user[0]
 		user_dict = {}
 		self.user_database.query("SELECT * FROM `%s` WHERE uid=%d" % (getConfig("db_mysql_user_table_alt"), user_sql['uid']))
@@ -55,7 +55,7 @@ class MySQLBackend:
 		t_vending = t_result.fetch_row(how=1)
 		if len(t_vending) < 1:
 			log(Log.Warn,"db-auth", "User was not found in vending db, this is bad.")
-			return False
+			return "You are not in the vending database. Please contact a Vending admin."
 		vending_sql = t_vending[0]
 		user_dict = vending_sql
 		for i, v in user_sql.iteritems():
@@ -63,7 +63,7 @@ class MySQLBackend:
 		Environment.user = VendingUser(user_sql['uid'],user_sql['uin'],user_dict)
 		Environment.state = State.Authenticated
 		Environment.tool.gui.updateUser()
-		return True
+		return None
 	def getItems(self):
 		"""
 		Update and return the list of available items in each tray.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, threading
+import sys, threading, urllib
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4.QtWebKit import *
@@ -73,10 +73,10 @@ class GraphicalInterface:
 		Inform the user that this tray is empty.
 		"""
 		self.setPage("empty")
-	def showCardError(self):
+	def showCardError(self, error_msg):
 		"""
 		There was an error reading the card.
 		"""
-		self.setPage("card_error")
+		self.setPage("card_error?%s" % urllib.quote(error_msg))
 	def showAdminCard(self):
 		self.setPage("admin_card")

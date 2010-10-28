@@ -3,7 +3,7 @@ from threading import Thread
 from SocketServer import ThreadingMixIn
 from pml import PML
 from Vending import *
-import mimetypes, difflib
+import mimetypes, difflib, urllib
 
 mimetypes.init()
 
@@ -100,6 +100,9 @@ class _GetHandler(BaseHTTPRequestHandler):
 			else:
 				query = [query]
 			log(Log.Info, "web", "Request includes query %s" % str(query))
+		query_unesc = []
+		for i in query:
+			query_unesc.append(urllib.unquote(i))
 		if not path.find(".") == -1:
 			try:
 				if path[0] == '/':
@@ -122,13 +125,10 @@ class _GetHandler(BaseHTTPRequestHandler):
 				self.wfile.write(htmlfile)
 		else:
 			try:
-				htmlfile = _Template(path + ".html", query)
+				htmlfile = _Template(path + ".html", query_unesc)
 				self.send_response(200)
 			except Exception, inst:
 				Environment.tool.web.exception = inst
-				#ifio = open("www/500_error.html","r")
-				#htmlfile = fio.read()
-				#fio.close()
 				htmlfile = _Template("500_error.html")
 				self.send_response(500)
 			self.send_header("Content-type","text/html")
