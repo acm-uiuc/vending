@@ -240,12 +240,13 @@ class Vending:
 			# Ready -> Card Reads
 			if data.startswith(getConfig("serial_data_card_prefix")):
 				log(Log.Verbose, "api-serial", "^ Card swipe.")
-				if not self.handleCardSwipe(data.replace(getConfig("serial_data_card_prefix"),"")):
-					self.gui.showCardError()
+				card_error = self.handleCardSwipe(data.replace(getConfig("serial_data_card_prefix"),""))
+				if card_error:
+					self.gui.showCardError(card_error)
 			elif data.startswith(getConfig("serial_data_card_error_prefix")):
 				log(Log.Verbose, "api-serial", "^ Bad card swipe.")
 				log(Log.Error, "card-swipe", "Bad card: Serial returned card failure.")
-				self.gui.showCardError()
+				self.gui.showCardError("Failed to read card.")
 		elif Environment.state == State.Authenticated or Environment.state == State.Confirm:
 			# Authenticated -> Button Presses
 			if data.startswith(getConfig("serial_data_button_prefix")):
@@ -274,17 +275,17 @@ class Vending:
 		"""
 		if not card.startswith(";"):
 			log(Log.Info,"card-swipe", "Bad card: Missing ;")
-			return False
+			return "Failed to read card."
 		for admin_card in getConfig("admin_card"):
 			if card.startswith(";%s" % admin_card):
 				log(Log.Notice,"card-swipe", "Administrator card detected")
 				return self.authenticateAdmin()
 		if len(card) < 19:
 			log(Log.Info,"card-swipe", "Bad card: Not really long enough.")
-			return False
+			return "Failed to read card."
 		if not card[17] == "=":
 			log(Log.Info,"card-swipe", "Bad card: Missing =")
-			return False
+			return "Failed to read card."
 		card_uin = card[5:14] # UIN
 		return self.db.authenticateUser(card_uin)
 	def cancelTransaction(self):
@@ -389,4 +390,4 @@ class Vending:
 		Environment.user = VendingUser(-1,-1,{})
 		Environment.user.isAdmin = True
 		self.gui.showAdminCard()
-		return True
+		return None
