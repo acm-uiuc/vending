@@ -16,6 +16,14 @@
 				<b>Amount Spent:</b> <? print "$%.2f" % float(user.extra['spent']) ?><br>
 				<b>Total Purchases:</b> <? print user.extra['sodas'] ?><br>
 			</p>
+			<p>
+			<b>Last Purchases:</b><br>
+			<? i = 0
+			for item in pml.get('globals')['Environment'].tool.db.lastNPurchases(user, 5): ?>
+			<? print item ?> <br>
+			<? i++ ?>
+			<? #for ?>
+			</p>
 		</div>
 	</div>
 	<div style='clear: both;'></div>
