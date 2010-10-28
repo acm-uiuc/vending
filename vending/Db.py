@@ -114,7 +114,7 @@ class MySQLBackend:
 		return True
 
 # Written by schober1 -- may be f***ing broken!
-	def lastNPurchases(self, user, n)
+	def lastNPurchases(self, user, n):
 		"""
 		Retrieves the last n purchases for a user.
 		"""
@@ -124,5 +124,5 @@ class MySQLBackend:
 			log(Log.Notice,"db-auth", "n is not an integer.")
 			return None
 		self.user_database.query("SELECT * FROM `%s` WHERE `uid`=%d ORDER BY `tid` DESC LIMIT %d" % (getConfig("db_mysql_user_table_transactions"), user.uid, num_purchases))
-		purchases = self.user_database.store_result.store_result().fetch_row(how=1,max_rows=num_purchases)
+		purchases = self.user_database.store_result().fetch_row(how=1,maxrows=num_purchases)
 		return purchases
