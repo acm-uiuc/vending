@@ -85,7 +85,7 @@ class _GetHandler(BaseHTTPRequestHandler):
 		path = self.path[1:]
 		if len(path) == 0:
 			path = "main"
-		if self.path.startswith("gui/"):
+		if self.path.startswith("/gui/"):
 			if not self.client_address[0] == '127.0.0.1':
 				self.send_response(403)
 				return
