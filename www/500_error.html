@@ -1,15 +1,31 @@
-<? include 'gui/include/header.html' ?>
-<div id='middle-header'>Internal Error</div>
-<div class='middle-content'>
-	<div class='middle-text'>
-		<p><b>An internal error occurred processing a Vending template.</b></p>
-		<p>Please inform the machine operators.</p>
-		<p>The following exception information was provided:</b>
-		<center>
-		<div width="500" align="left" style="text-align: left; padding-left: 300px; font-family: DejaVuSansMono;"><pre style="font-family: DejaVuSansMono;">
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Caffeine</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link href="http://acm.uiuc.edu/caffeine/media/caffeine.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+	<div id='shadow'>
+		<div id='banner'><a href="."><img src='http://acm.uiuc.edu/caffeine/media/banner.gif' alt='caffeine' border='0'/></a></div>
+		<div id='middle-header'>Internal Error</div>
+		<div class='middle-content' id="middle-content">
+			<div class='middle-text' id="middle-text">
+				<p><b>An internal error occurred processing a Web template.</b></p>
+				<p>Please inform the machine operators.</p>
+				<p>The following exception information was provided:</b>
+				<center>
+				<div width="200" align="left" style="text-align: left; font-family: monospace; font-size: 12px;"><pre>
 <? print pml.get('globals')['Environment'].tool.web.exception ?>
-		</pre></div>
-		</center>
+				</pre></div>
+				</center>
+			</div>
+		</div>
+		<div><center><img src="http://www.acm.uiuc.edu/lug/vending/assets/drinks/2.png" />
+		<img src="http://www.acm.uiuc.edu/lug/vending/assets/drinks/12.png" />
+		<img src="http://www.acm.uiuc.edu/lug/vending/assets/drinks/15.png" /></center></div>
+		<div id='copyright'>&copy; 2010 <a class="copyright" href="http://acm.uiuc.edu/lug">Linux Users Group</a> @ UIUC</div>
 	</div>
-</div>
-<? include 'gui/include/footer.html' ?>
+</body>
+</html>
+
