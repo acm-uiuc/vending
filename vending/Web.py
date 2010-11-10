@@ -129,7 +129,10 @@ class _GetHandler(BaseHTTPRequestHandler):
 				self.send_response(200)
 			except Exception, inst:
 				Environment.tool.web.exception = inst
-				htmlfile = _Template("500_error.html")
+				if self.path.startswith("/gui/"):
+					htmlfile = _Template("gui/500_error.html")
+				else:
+					htmlfile = _Template("500_error.html")
 				self.send_response(500)
 			self.send_header("Content-type","text/html")
 			self.end_headers()
