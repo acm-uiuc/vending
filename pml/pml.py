@@ -226,10 +226,10 @@ class PML(object):
             self.output_capture.end()
         if self.config["print_errors"]:
             log(Log.Warn, "web-pml", "Template engine error: %s" % error)
-            raise
+            raise Exception(error)
         else:
             # TODO: Create a PMLException class with line numbers etc.
-            raise
+            raise Exception(error)
     
     def is_cached(self, template):
         return self.cache.is_cached(template)
