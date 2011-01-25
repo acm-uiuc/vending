@@ -1,0 +1,15 @@
+<? include 'gui/include/header.html' ?>
+<div id='middle-header'>Internal Error</div>
+<div class='middle-content'>
+	<div class='middle-text'>
+		<p><b>An internal error occurred processing a Vending template.</b></p>
+		<p>Please inform the machine operators.</p>
+		<p>The following exception information was provided:</b>
+		<center>
+		<div width="500" align="left" style="text-align: left; padding-left: 300px; font-family: DejaVuSansMono;"><pre style="font-family: DejaVuSansMono;">
+<? print pml.get('globals')['Environment'].tool.web.exception ?>
+		</pre></div>
+		</center>
+	</div>
+</div>
+<? include 'gui/include/footer.html' ?>

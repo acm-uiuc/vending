@@ -1,0 +1,16 @@
+<? include 'gui/include/header.html' ?>
+<div id='middle-header'>Confirm Your Selection</div>
+<div class='middle-content'>
+	<div class='middle-text'>
+		<?
+		env = pml.get('globals')['Environment']
+		drink_id = env.last_button
+		drink = env.tool.db.getItems()[drink_id]
+		?>
+		<h2><? print drink.title ?></h2>
+		<p><img src="/assets/drinks/<? print drink.extra['sid'] ?>.png" /></p>
+		<h3>$<? print '%.2f' % drink.price ?></h3>
+		<p>Confirm this drink selection by pressing the button again.</p>
+	</div>
+</div>
+<? include 'gui/include/footer.html' ?>

@@ -12,6 +12,7 @@ class Caffeine(Vending.Vending):
 		self.db = Db.MySQLBackend()
 		self.web = Web.Server()
 		self.gui = Gui.GraphicalInterface()
+		self.serial.write("\xa0")
 		Vending.Vending.start(self)
 
 Caffeine().start()

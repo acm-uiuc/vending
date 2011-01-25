@@ -8,7 +8,7 @@ class Serial:
 	def __init__(self):
 		self._internal = Environment.tool
 		attempts = 0
-		devices = ["ttyUSB0", "ttyUSB1"] #, "ttyS0", "ttyS1"]
+		devices = ["ttyS0", "ttyS1"]
 		while attempts < 5 * len(devices):
 			for device in devices:
 				try:
