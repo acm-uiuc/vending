@@ -1,0 +1,10 @@
+<? pml.set('timeout_page', 'user')
+include 'gui/include/header.html' ?>
+<div id='middle-header'>You can't afford this.</div>
+<div class='middle-content'>
+	<div class='middle-text'>
+		<h2>This item is too expensive, you can not afford it.</h2>
+		<p>Your balance is <? print "$%.2f" % pml.get('globals')['Environment'].user.extra['balance'] ?>.</p>
+	</div>
+</div>
+<? include 'gui/include/footer.html' ?>

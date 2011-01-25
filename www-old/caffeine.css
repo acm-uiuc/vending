@@ -1,0 +1,157 @@
+html {
+	height: 100%;
+}
+
+body {
+	background-color: #888888;
+	font-family: Arial, Verdana;
+	font-size: 11pt;
+	margin: 0;
+	height: 100%;
+}
+
+a.copyright {
+	color: #222222;
+	border-bottom: 1px dashed #555555;
+	text-decoration: none;
+}
+
+a.copyright:hover {
+	color: #AAAAAA;
+	border: none;
+}
+
+#shadow {
+	margin: 0 auto;
+}
+
+#banner {
+	height: 100px;
+	width: 1270px;
+	vertical-align: middle;
+	font-size: 60pt;
+	font-style: italic;
+}
+
+#middle {
+	background: #666666;
+	text-align: left;
+	width: 1270px;
+}
+
+#middle-header {
+	border: solid 1px #000;
+	height: 32px;
+	width: 1270px;
+	font-weight: bold;
+	font-size: 28px;
+	text-align: center;
+}
+
+.middle-content {
+	width: 1270px;
+	display: table;
+	height: 800px;
+	overflow: hidden;
+}
+
+.middle-text {
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.middle-text img {
+	display: inline;
+}
+
+.middle-text table {
+	display: inline;
+}
+
+.right-content {
+	display: table;
+	width: 838px;
+	height: 800px;
+	float: left;
+}
+
+.left-content {
+	display: table;
+	width: 432px;
+	height: 800px;
+	float: left;
+}
+
+#copyright {
+	bottom: 5px;
+	font-size: 10pt;
+	left: 0;
+	position: absolute;
+	text-align: left;
+	width: 1270px;
+}
+#copyright_fw {
+	bottom: 5px;
+	font-size: 10pt;
+	right: 0px;
+	position: absolute;
+	text-align: right;
+	width: 1270px;
+}
+
+.tray_normal { }
+.tray_empty { color: #700;}
+.tray_critical { color: #F44;}
+.tray_low { color: #FC0;}
+.tray_disabled { color: #F00;}
+
+table tr td {
+	border: solid 1px #AAA;
+	background-color: #BBBBBB;
+	font-size: 28px;
+}
+
+table tr.header td, table tr td.header {
+	background: transparent;
+	border: 0px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.c {
+	text-align: center;
+}
+
+.r {
+	text-align: right;
+}
+
+h3 a {
+	color: #CCC;
+	text-decoration: none;
+}
+
+.hidden {
+	display: none;
+}
+
+ul.stats li {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+ul.stats {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+h3.selected a {
+	color: #FFF;
+}
+
+h3 { display: inline }
+
+h2, h3 { margin: 0}

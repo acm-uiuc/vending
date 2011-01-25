@@ -97,7 +97,7 @@ class MySQLBackend:
 			return True
 		log(Log.Info,"db-charge", "uid: %d, amount: %.2f" % (int(Environment.user.uid), amount))
 		self.user_database.query("INSERT INTO `%s` VALUES (NULL, NULL, %d, %d, %.2f)" % (getConfig("db_mysql_user_table_transactions"), int(Environment.user.uid), item_id, amount))
-		self.user_database.query("UPDATE `%s` SET `balance`=%.2f WHERE `uid`=%d" % (getConfig("db_mysql_user_table_alt"), Environment.user.extra['balance'] - amount, int(Environment.user.uid)))
+		self.user_database.query("UPDATE `%s` SET `balance`=`balance`-%.2f WHERE `uid`=%d" % (getConfig("db_mysql_user_table_alt"), amount, int(Environment.user.uid)))
 		self.user_database.commit()
 		return True
 	def vend(self, tray):

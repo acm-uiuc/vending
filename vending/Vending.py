@@ -260,6 +260,10 @@ class Vending:
 					self.handleButtonPress(firstPress.replace(d,""))
 				self.handleButtonPress(data.replace(getConfig("serial_data_button_prefix"),""))
 		elif Environment.state == State.Acknowledge:
+			if data.startswith(getConfig("serial_data_button_up_prefix")):
+				if not data[len(getConfig("serial_data_button_up_prefix")):].isdigit():
+					if data.find(getConfig("serial_data_acknowledge_prefix")):
+						data = getConfig("serial_data_acknowledge_prefix")
 			if data.startswith(getConfig("serial_data_acknowledge_prefix")):
 				log(Log.Info, "api-serial", "Acknowledged. Returning to Ready state.")
 				Environment.state = State.Ready
