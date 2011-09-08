@@ -13,6 +13,13 @@
 		t_class = "tray_normal"
 		drink._title = drink.title
 		#else
+		if drink.tray == 0:
+		t_class = "tray_normal"
+		drink.extra['sid'] = "cancel"
+		drink._title = "(Cancel)"
+		drink.extra['calories'] = "N/A"
+		drink.extra['caffeine'] = "N/A"
+		#if
 		?>
 		<tr class='<? print t_class ?>'>
 			<td rowspan='2' class='header'><? print drink.tray ?></td>
