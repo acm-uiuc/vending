@@ -159,6 +159,8 @@ class MySQLBackend:
 		self.user_database.query("UPDATE `%s` SET `balance`=`balance`-%.2f WHERE `uid`=%d" % (getConfig("db_mysql_user_table_alt"), amount, int(Environment.user.uid)))
 		self.user_database.commit()
 		return True
+
+
 	def vend(self, tray):
 		"""
 		Update the databases' knowledge of the number of items in a tray.
