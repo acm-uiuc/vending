@@ -17,34 +17,56 @@ class MySQLBackend:
 		log(Log.Info, "db", "Using MySQL backend.")
 		self.user_database	= None #: Server connection set to a database for user data
 		self.vend_database	= None #: Server connection set to a database for vending data, like sodas
+		self.vote_database	= None
 		self.connected = False
+
 	def start(self):
 		"""
 			Connect to the MySQL databases.
 		"""
+
 		self.connect()
 		self.close()
 		log(Log.Notice, "db-mysql", "MySQL is ready.")
 	def connect(self):
 		if self.connected:
 			return
+
 		log(Log.Verbose, "db-mysql", "Connecting to MySQL 'user' server (%s)." % getConfig("db_mysql_user_server"))
 		self.user_database	= MySQLdb.connect(getConfig("db_mysql_user_server"), getConfig("db_mysql_user_user"), getConfig("db_mysql_user_password"))
+
 		log(Log.Verbose, "db-mysql", "Connecting to MySQL 'vend' server (%s)." % getConfig("db_mysql_vend_server"))
 		self.vend_database	= MySQLdb.connect(getConfig("db_mysql_vend_server"), getConfig("db_mysql_vend_user"), getConfig("db_mysql_vend_password"))
-		log(Log.Verbose, "db-mysql", "Attaching to databases - user: %s, vend: %s." % (getConfig("db_mysql_user_db"), getConfig("db_mysql_vend_db")))
+
+		log(Log.Verbose, "db-mysql", "Connecting to MySQL 'vote' server (%s)." % getConfig("db_mysql_vote_server"))
+		self.vote_database	=MySQLdb.connect(getConfig("db_mysql_vote_server"), getConfig("db_mysql_vote_user"), getConfig("db_mysql_vote_password"))
+
+		log(Log.Verbose, "db-mysql", "Attaching to databases - user: %s, vend: %s, vote: %s." % (getConfig("db_mysql_user_db"), getConfig("db_mysql_vend_db"), getConfig("db_mysql_vote_db"))
+
+
 		self.user_database.select_db(getConfig("db_mysql_user_db"))
 		self.vend_database.select_db(getConfig("db_mysql_vend_db"))
+		self.vote_database.select_db(getConfig("db_mysql_vote_db"))
+
 		log(Log.Verbose, "db-mysql", "Disabling TRANSACTION mode for reads.")
+
 		self.user_database.query("SET TRANSACTION ISOLATION LEVEL READ COMMITTED")
 		self.vend_database.query("SET TRANSACTION ISOLATION LEVEL READ COMMITTED")
+		self.vote_database.query("SET TRANSACTION ISOLATION LEVEL READ COMMITTED")
+
 		self.connected = True
+
+
 	def close(self):
 		if not self.connected:
 			return
+
 		self.user_database.close()
 		self.vend_database.close()
+		self.vote_database.close()
 		self.connected = False
+
+
 	def authenticateUser(self, card_id):
 		"""
 			Get a user by their Card's ID number
@@ -80,6 +102,8 @@ class MySQLBackend:
 		Environment.tool.gui.updateUser()
 		self.close()
 		return None
+
+
 	def getItems(self):
 		"""
 		Update and return the list of available items in each tray.
@@ -96,18 +120,33 @@ class MySQLBackend:
 			Environment.trays.append(VendingItem(soda['name'], i, tray['qty'], tray['price'], soda))
 		self.close()
 		return Environment.trays
+
+
 	def purchaseItem(self, item):
 		self.connect()
 		self.chargeUser(item.price, item.extra['sid'])
 		u = Environment.user
 		if u.isAdmin:
 			return True
+
 		self.user_database.query("UPDATE `%s` SET `calories`=%d, `caffeine`=%f, `spent`=%f, `sodas`=%d WHERE `uid`=%d" % \
 				(getConfig("db_mysql_user_table_alt"), u.extra['calories'] + item.extra['calories'], u.extra['caffeine'] + item.extra['caffeine'], u.extra['spent'] + item.price,  u.extra['sodas'] + 1, u.uid))
 		self.user_database.commit()
+
 		self.vend_database.query("UPDATE `%s` SET `dispensed`=%d WHERE `sid`=%d" % (getConfig("db_mysql_vend_items"),item.extra['dispensed'], item.extra['sid']))
 		self.vend_database.commit()
+
+		self.vote_database.query("SELECT num_sodas FROM `%s` WHERE `uid`=%d" % (getConfig("db_mysql_vote_table"), u.uid))
+		res = self.vote_database.store_result().fetch_row(how=1)
+		if(len(res) == 0):
+			self.vote_database.query("INSERT INTO `%s` (uid, vote, num_sodas) VALUES(%d, NULL, 1)" % (getConfig("db_mysql_vote_table"), u.uid))
+		else:
+			self.vote_database.query("UPDATE `%s` SET num_sodas = %d WHERE `uid` = %d" % (getConfig("db_mysql_vote_table"), res[0]["num_sodas"] + 1, u.uid))
+		self.vote_database.commit()
+
 		self.close()
+
+
 	def chargeUser(self, amount, item_id):
 		"""
 		Charge the current user some amount of money.
