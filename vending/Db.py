@@ -141,7 +141,7 @@ class MySQLBackend:
 		if(len(res) == 0):
 			self.vote_database.query("INSERT INTO `%s` (uid, vote, num_sodas) VALUES(%d, NULL, 1)" % (getConfig("db_mysql_vote_table"), u.uid))
 		else:
-			self.vote_database.query("UPDATE `%s` SET num_sodas = %d WHERE `uid` = %d" % (getConfig("db_mysql_vote_table"), res[0]["num_sodas"] + 1, u.uid))
+			self.vote_database.query("UPDATE `%s` SET `num_sodas` = %d WHERE `uid` = %d" % (getConfig("db_mysql_vote_table"), res[0]["num_sodas"] + 1, u.uid))
 		self.vote_database.commit()
 
 		self.close()
