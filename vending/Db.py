@@ -41,7 +41,7 @@ class MySQLBackend:
 		log(Log.Verbose, "db-mysql", "Connecting to MySQL 'vote' server (%s)." % getConfig("db_mysql_vote_server"))
 		self.vote_database	=MySQLdb.connect(getConfig("db_mysql_vote_server"), getConfig("db_mysql_vote_user"), getConfig("db_mysql_vote_password"))
 
-		log(Log.Verbose, "db-mysql", "Attaching to databases - user: %s, vend: %s, vote: %s." % (getConfig("db_mysql_user_db"), getConfig("db_mysql_vend_db"), getConfig("db_mysql_vote_db"))
+		log(Log.Verbose, "db-mysql", "Attaching to databases - user: %s, vend: %s, vote: %s." % (getConfig("db_mysql_user_db"), getConfig("db_mysql_vend_db"), getConfig("db_mysql_vote_db")))
 
 
 		self.user_database.select_db(getConfig("db_mysql_user_db"))
