@@ -232,7 +232,7 @@ class Vending:
 		self.web.start()
 		Environment.state = State.Ready
 		self.db.getItems()
-self.gui.start() # GUI should take over from here.
+		self.gui.start() # GUI should take over from here.
 
 
 	def handleSerialData(self, data):
