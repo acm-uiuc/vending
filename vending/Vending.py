@@ -209,6 +209,8 @@ class Vending:
 		self.web	= None	#: Web server
 		log(Log.Warn, "api-main", "Starting up...")
 		_readConfig()
+
+
 	def start(self):
 		"""
 		Start the interface.
@@ -231,6 +233,8 @@ class Vending:
 		Environment.state = State.Ready
 		self.db.getItems()
 		self.gui.start() # GUI should take over from here.
+
+
 	def handleSerialData(self, data):
 		"""
 		Serial data handler, extend this by calling it before or after.
@@ -268,11 +272,13 @@ class Vending:
 				log(Log.Info, "api-serial", "Acknowledged. Returning to Ready state.")
 				Environment.state = State.Ready
 				self.gui.showMain()
+
 	def isDoublePress(self, data):
 		b = getConfig("serial_data_button_prefix")
 		u = getConfig("serial_data_button_up_prefix")
 		rex = "%s\d%s\d%s\d" % (b, u, b)
 		return (re.match(rex, data) != None)
+
 	def handleCardSwipe(self, card):
 		"""
 		Read a card swipe.
@@ -292,6 +298,8 @@ class Vending:
 			return "Failed to read card."
 		card_uin = card[5:14] # UIN
 		return self.db.authenticateUser(card_uin)
+
+
 	def cancelTransaction(self):
 		"""
 		Cancel the current transaction.
@@ -300,6 +308,8 @@ class Vending:
 		Environment.tray = None
 		Environment.state = State.Ready
 		self.gui.showCancel()
+
+
 	def handleButtonPress(self, data):
 		"""
 		Handle a button press.
@@ -348,6 +358,7 @@ class Vending:
 				log(Log.Info, "button-press", "User changed selection.")
 				Environment.state = State.Authenticated
 				return self.handleButtonPress(data)
+
 	def telnetListCommands(self):
 		"""
 		List available terminal commands.
@@ -355,6 +366,7 @@ class Vending:
 		"""
 		return {"help": "Show this help text.", "status": "Display current system status.", \
 				"quit": "End your session and disconnect."}
+
 	def telnetCommand(self, command, wfile, rfile):
 		"""
 		Process a telnet command.
@@ -388,6 +400,7 @@ class Vending:
 			return True
 		else:
 			return False
+
 	def authenticateAdmin(self):
 		# Authenticate the admin user.
 		Environment.state = State.Authenticated
