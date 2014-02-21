@@ -19,14 +19,17 @@ db_mysql_user_user: "soda"
 db_mysql_vend_user: "soda"
 db_mysql_user_password: "** YOUR PASSWORD HERE**"
 db_mysql_vend_password: "** YOUR PASSWORD HERE**"
+db_mysql_vote_password: "** YOUR PASSWORD HERE**"
 db_mysql_user_db: "user_database"
 db_mysql_vend_db: "soda_database"
+db_mysql_vote_db: "vote_database"
 # Database tables
 db_mysql_user_table: "users"
 db_mysql_user_table_alt: "vending"
 db_mysql_user_table_transactions: "transactions"
 db_mysql_vend_items: "sodas"
 db_mysql_vend_trays: "trays"
+db_mysql_vote_table: "vote"
 # The serial baudrate, ours is 115200
 serial_baudrate: 115200
 # The time to wait on the serial
