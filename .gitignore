@@ -4,3 +4,4 @@
 *.pml
 debug.log
 machine.conf
+debug.log.gz
